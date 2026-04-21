@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Inheritance — The Four ORD Research Achievement Awards</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #F4F0E8;
+    --bg-deep: #EBE5D8;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4540;
+    --ink-faint: #8A8478;
+    --rule: #D8D0BE;
+    --paper: #FDFBF5;
+
+    --barnwell: #2C5F5D;
+    --barnwell-soft: #E0ECEB;
+    --magnuson: #B8612E;
+    --magnuson-soft: #F2E3D4;
+    --middleton: #6F1F1A;
+    --middleton-soft: #EBD7D3;
+    --undersec: #2A3B5C;
+    --undersec-soft: #DDE1EB;
+
+    --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle paper texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 1;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(139, 123, 92, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(139, 123, 92, 0.06) 0%, transparent 50%);
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 48px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ——— MASTHEAD ——— */
+  .masthead {
+    padding: 40px 0 24px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+  }
+  .masthead-left {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .masthead-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .masthead-right {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ——— HERO ——— */
+  .hero {
+    padding: 100px 0 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(64px, 10vw, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+  .hero-title .ampersand {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-faint);
+  }
+  .hero-meta {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 380px;
+    padding-bottom: 12px;
+  }
+  .hero-meta .lede {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+  .hero-meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+
+  /* ——— SECTION ——— */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+    max-width: 900px;
+  }
+  .section-title em { font-style: italic; }
+
+  /* ——— TIMELINE ——— */
+  .timeline-wrap {
+    margin-top: 60px;
+    padding: 60px 60px 48px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .timeline {
+    position: relative;
+    padding: 60px 0;
+  }
+  .timeline-axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--ink);
+    transform: translateY(-50%);
+  }
+  .timeline-tick {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    text-align: center;
+  }
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    position: relative;
+    z-index: 2;
+  }
+  .timeline-tick[data-award="middleton"] .timeline-dot { background: var(--middleton); border-color: var(--middleton); }
+  .timeline-tick[data-award="magnuson"] .timeline-dot { background: var(--magnuson); border-color: var(--magnuson); }
+  .timeline-tick[data-award="undersec"] .timeline-dot { background: var(--undersec); border-color: var(--undersec); }
+  .timeline-tick[data-award="barnwell"] .timeline-dot { background: var(--barnwell); border-color: var(--barnwell); }
+
+  .timeline-above {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 8px);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .timeline-below {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(100% + 16px);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .timeline-year {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .timeline-name {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    color: var(--ink-soft);
+  }
+
+  /* ——— OVERVIEW GRID ——— */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .overview-card {
+    background: var(--paper);
+    padding: 32px 28px;
+    position: relative;
+    transition: transform 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .overview-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+  }
+  .overview-card[data-award="barnwell"]::before { background: var(--barnwell); }
+  .overview-card[data-award="magnuson"]::before { background: var(--magnuson); }
+  .overview-card[data-award="middleton"]::before { background: var(--middleton); }
+  .overview-card[data-award="undersec"]::before { background: var(--undersec); }
+  .overview-card:hover { background: var(--bg-deep); }
+
+  .overview-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 32px;
+    margin-top: 12px;
+  }
+  .overview-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .overview-focus {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .overview-meta {
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .overview-meta dt {
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin-bottom: 4px;
+  }
+  .overview-meta dd {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ——— CONCEPTUAL FRAME ——— */
+  .frame-block {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    padding: 48px 0;
+  }
+  .frame-num {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 88px;
+    line-height: 0.9;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .frame-num-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 12px;
+  }
+  .frame-text {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .frame-text strong {
+    font-weight: 600;
+    font-style: italic;
+  }
+  .frame-text + .frame-gloss {
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  /* ——— AWARD DEEP DIVE ——— */
+  .award-section {
+    padding: 120px 0 80px;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .award-section .container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 80px;
+  }
+  .award-aside { position: relative; }
+  .award-aside-sticky {
+    position: sticky;
+    top: 40px;
+  }
+  .award-crest {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1.5px solid;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+  }
+  .award-crest-corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid;
+  }
+  .award-crest-corner.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .award-crest-corner.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+  .award-crest-corner.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+  .award-crest-corner.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .award-crest-mono {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .award-crest-serif {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+  .award-crest-est {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    margin-top: 16px;
+    color: var(--ink-faint);
+  }
+  .award-meta-list {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .award-meta-list dt {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+  .award-meta-list dd {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .award-body { padding-top: 12px; }
+  .award-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .award-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 12px;
+  }
+  .award-title em { font-style: italic; font-weight: 400; }
+  .award-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    margin-bottom: 48px;
+    max-width: 640px;
+  }
+
+  .award-section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin: 40px 0 12px;
+    display: inline-block;
+    padding: 4px 10px;
+    color: var(--paper);
+  }
+  .award-section-label:first-of-type { margin-top: 0; }
+
+  .award-prose {
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 680px;
+    color: var(--ink);
+  }
+  .award-prose p { margin-bottom: 16px; }
+  .award-prose p:last-child { margin-bottom: 0; }
+
+  .award-pullquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.3;
+    padding: 32px 0 32px 32px;
+    margin: 32px 0;
+    border-left: 2px solid;
+    max-width: 640px;
+  }
+  .award-pullquote cite {
+    display: block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  .design-cues {
+    margin-top: 40px;
+    padding: 32px;
+    background: var(--paper);
+    border: 1px solid;
+  }
+  .design-cues-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .design-cues-text {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .design-cues-palette {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+  .swatch {
+    height: 40px;
+    flex: 1;
+    position: relative;
+  }
+  .swatch-label {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  /* Award color variants */
+  [data-award="barnwell"] .award-crest,
+  [data-award="barnwell"] .award-crest-corner { border-color: var(--barnwell); color: var(--barnwell); }
+  [data-award="barnwell"] .award-label,
+  [data-award="barnwell"] .award-section-label { background: var(--barnwell); color: var(--paper); }
+  [data-award="barnwell"] .award-pullquote { border-left-color: var(--barnwell); color: var(--barnwell); }
+  [data-award="barnwell"] .design-cues { border-color: var(--barnwell); }
+  [data-award="barnwell"] .design-cues-label { color: var(--barnwell); }
+
+  [data-award="magnuson"] .award-crest,
+  [data-award="magnuson"] .award-crest-corner { border-color: var(--magnuson); color: var(--magnuson); }
+  [data-award="magnuson"] .award-label,
+  [data-award="magnuson"] .award-section-label { background: var(--magnuson); color: var(--paper); }
+  [data-award="magnuson"] .award-pullquote { border-left-color: var(--magnuson); color: var(--magnuson); }
+  [data-award="magnuson"] .design-cues { border-color: var(--magnuson); }
+  [data-award="magnuson"] .design-cues-label { color: var(--magnuson); }
+
+  [data-award="middleton"] .award-crest,
+  [data-award="middleton"] .award-crest-corner { border-color: var(--middleton); color: var(--middleton); }
+  [data-award="middleton"] .award-label,
+  [data-award="middleton"] .award-section-label { background: var(--middleton); color: var(--paper); }
+  [data-award="middleton"] .award-pullquote { border-left-color: var(--middleton); color: var(--middleton); }
+  [data-award="middleton"] .design-cues { border-color: var(--middleton); }
+  [data-award="middleton"] .design-cues-label { color: var(--middleton); }
+
+  [data-award="undersec"] .award-crest,
+  [data-award="undersec"] .award-crest-corner { border-color: var(--undersec); color: var(--undersec); }
+  [data-award="undersec"] .award-label,
+  [data-award="undersec"] .award-section-label { background: var(--undersec); color: var(--paper); }
+  [data-award="undersec"] .award-pullquote { border-left-color: var(--undersec); color: var(--undersec); }
+  [data-award="undersec"] .design-cues { border-color: var(--undersec); }
+  [data-award="undersec"] .design-cues-label { color: var(--undersec); }
+
+  /* Section tinted backgrounds for each award deep-dive */
+  .award-section[data-award="barnwell"] { background: var(--barnwell-soft); }
+  .award-section[data-award="magnuson"] { background: var(--magnuson-soft); }
+  .award-section[data-award="middleton"] { background: var(--middleton-soft); }
+  .award-section[data-award="undersec"] { background: var(--undersec-soft); }
+
+  /* ——— PORTFOLIO OBSERVATIONS ——— */
+  .obs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    margin-top: 40px;
+  }
+  .obs-cell {
+    background: var(--paper);
+    padding: 40px 36px;
+    position: relative;
+  }
+  .obs-num {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .obs-head {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .obs-body {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* ——— OPERATIONAL TABLE ——— */
+  .ops-table {
+    margin-top: 40px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .ops-row {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ops-row:last-child { border-bottom: none; }
+  .ops-key {
+    padding: 24px 28px;
+    background: var(--bg-deep);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  .ops-val {
+    padding: 24px 28px;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .ops-chain {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .ops-chain-arrow { color: var(--ink-faint); margin: 0 6px; }
+
+  /* ——— CLOSING ——— */
+  .closing {
+    padding: 120px 0;
+    text-align: center;
+  }
+  .closing-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.3;
+    max-width: 720px;
+    margin: 0 auto 32px;
+  }
+  .closing-attrib {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ——— FOOTER ——— */
+  footer {
+    padding: 48px 0;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  footer a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  footer a:hover { color: var(--magnuson); }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 60px 0 48px; }
+    .award-section .container { grid-template-columns: 1fr; gap: 40px; }
+    .award-aside-sticky { position: static; }
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+    .obs-grid { grid-template-columns: 1fr; }
+    .frame-block { grid-template-columns: 1fr; gap: 16px; }
+    .ops-row { grid-template-columns: 1fr; }
+    .ops-key { padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ——— MASTHEAD ——— -->
+<header class="masthead">
+  <div class="container" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; padding: 0 48px;">
+    <div class="masthead-left">
+      Vol. I &nbsp;·&nbsp; No. 1<br>
+      <span style="opacity: 0.6;">Brand Reference Edition</span>
+    </div>
+    <div class="masthead-title">
+      VA / ORD — Research Achievement Awards
+    </div>
+    <div class="masthead-right">
+      Prepared for<br>the Redesign
+    </div>
+  </div>
+</header>
+
+<!-- ——— HERO ——— -->
+<section class="hero" style="border-bottom: 1px solid var(--rule);">
+  <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; padding: 0 48px;">
+    <h1 class="hero-title">
+      An<br>
+      <em>Inheritance</em>
+    </h1>
+    <div class="hero-meta">
+      <div class="hero-meta-label">On the matter of —</div>
+      <p class="lede">Four awards. Three legacies. One institution. The buildings are old, the names are older, and the redesign has to carry forward what the names already mean.</p>
+      <p>A reference for the brand redesign of the four ORD Research Achievement Awards, consolidated under Program Guide 1202.08 effective May 1, 2025.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ——— TIMELINE ——— -->
+<section>
+  <div class="container">
+    <div class="section-label"><span>§ I &nbsp;—&nbsp; The Order of Things</span></div>
+    <h2 class="section-title">The four awards arrived across <em>forty-seven years</em>. Middleton came first, and he built the program the others would eventually sit inside.</h2>
+
+    <div class="timeline-wrap">
+      <div class="timeline">
+        <div class="timeline-axis"></div>
+
+        <div class="timeline-tick" data-award="middleton" style="left: 8%;">
+          <div class="timeline-above">Foundation</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-below">
+            <div class="timeline-year">1960</div>
+            <div class="timeline-name">Middleton</div>
+          </div>
+        </div>
+
+        <div class="timeline-tick" data-award="magnuson" style="left: 66%;">
+          <div class="timeline-above">Expansion</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-below">
+            <div class="timeline-year">1998</div>
+            <div class="timeline-name">Magnuson</div>
+          </div>
+        </div>
+
+        <div class="timeline-tick" data-award="undersec" style="left: 80%;">
+          <div class="timeline-above">&nbsp;</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-below">
+            <div class="timeline-year">1998</div>
+            <div class="timeline-name">Under Sec.</div>
+          </div>
+        </div>
+
+        <div class="timeline-tick" data-award="barnwell" style="left: 94%;">
+          <div class="timeline-above">Completion</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-below">
+            <div class="timeline-year">2007</div>
+            <div class="timeline-name">Barnwell</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-top: 80px; text-align: center;">
+        The set was not designed as a set. It accrued.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— OVERVIEW GRID ——— -->
+<section>
+  <div class="container">
+    <div class="section-label"><span>§ II &nbsp;—&nbsp; The Four, at a Glance</span></div>
+    <h2 class="section-title">Each award sits in a different <em>research domain</em> and carries a different operational identity. Their brands should do the same.</h2>
+
+    <div class="overview-grid">
+      <a href="#middleton" class="overview-card" data-award="middleton">
+        <div class="overview-num">I &nbsp;·&nbsp; Biomedical</div>
+        <div class="overview-name">Middleton</div>
+        <div class="overview-focus">Foundational, academic, scholarly</div>
+        <dl class="overview-meta">
+          <div><dt>Est.</dt><dd>1960</dd></div>
+          <div><dt>Sponsor</dt><dd>MedHealth</dd></div>
+        </dl>
+      </a>
+      <a href="#magnuson" class="overview-card" data-award="magnuson">
+        <div class="overview-num">II &nbsp;·&nbsp; Rehabilitation</div>
+        <div class="overview-name">Magnuson</div>
+        <div class="overview-focus">Humanist, individual, restorative</div>
+        <dl class="overview-meta">
+          <div><dt>Est.</dt><dd>1998</dd></div>
+          <div><dt>Sponsor</dt><dd>RRDT</dd></div>
+        </dl>
+      </a>
+      <a href="#undersec" class="overview-card" data-award="undersec">
+        <div class="overview-num">III &nbsp;·&nbsp; Health Systems</div>
+        <div class="overview-name">Under Sec.</div>
+        <div class="overview-focus">Institutional, operational, systemic</div>
+        <dl class="overview-meta">
+          <div><dt>Est.</dt><dd>1998</dd></div>
+          <div><dt>Sponsor</dt><dd>HSR + QUERI</dd></div>
+        </dl>
+      </a>
+      <a href="#barnwell" class="overview-card" data-award="barnwell">
+        <div class="overview-num">IV &nbsp;·&nbsp; Clinical</div>
+        <div class="overview-name">Barnwell</div>
+        <div class="overview-focus">Cooperative, multi-site, evidence-built</div>
+        <dl class="overview-meta">
+          <div><dt>Est.</dt><dd>2007</dd></div>
+          <div><dt>Sponsor</dt><dd>BBMH + CSP</dd></div>
+        </dl>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ——— CONCEPTUAL FRAME ——— -->
+<section>
+  <div class="container">
+    <div class="section-label"><span>§ III &nbsp;—&nbsp; A Frame</span></div>
+    <h2 class="section-title">Three patterns worth carrying into the work.</h2>
+
+    <div class="frame-block">
+      <div>
+        <div class="frame-num">I.</div>
+        <div class="frame-num-sub">Three Legacies,<br>One Institution</div>
+      </div>
+      <div>
+        <p class="frame-text">Barnwell, Magnuson, and Middleton are named for <strong>specific people whose biographies are the brand.</strong> The Under Secretary's Award is named for a role.</p>
+        <p class="frame-gloss">That's a structural asymmetry, not a mistake. The brand system has to decide whether to unify all four (risking flattened legacy stories) or differentiate them (risking an odd-child feel for the fourth). Either is defensible. The choice should be deliberate.</p>
+      </div>
+    </div>
+
+    <div class="frame-block" style="border-top: 1px solid var(--rule);">
+      <div>
+        <div class="frame-num">II.</div>
+        <div class="frame-num-sub">Middleton is<br>the Foundation</div>
+      </div>
+      <div>
+        <p class="frame-text">Middleton built the VA research program itself. The other three awards exist <strong>inside the architecture he created.</strong></p>
+        <p class="frame-gloss">The design system can acknowledge this with subtle lineage cues, oldest-first visual hierarchy, or a more venerable register for the Middleton mark. Or it can ignore it and treat all four as parallel. Worth naming rather than deciding by default.</p>
+      </div>
+    </div>
+
+    <div class="frame-block" style="border-top: 1px solid var(--rule);">
+      <div>
+        <div class="frame-num">III.</div>
+        <div class="frame-num-sub">Each Award Encodes<br>a Philosophy</div>
+      </div>
+      <div>
+        <p class="frame-text">The namesakes aren't decorative. Each carries an <strong>actual research philosophy</strong> visible across the sponsoring portfolios and the pattern of past recipients.</p>
+        <p class="frame-gloss">Barnwell = cooperative, multi-site, evidence-built. Magnuson = humanist, individual, restorative. Middleton = foundational, academic, scholarly. A redesign that doesn't carry these through is a redesign that's just moving pixels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— MIDDLETON ——— -->
+<section class="award-section" id="middleton" data-award="middleton">
+  <div class="container">
+    <aside class="award-aside">
+      <div class="award-aside-sticky">
+        <div class="award-crest">
+          <div class="award-crest-corner tl"></div>
+          <div class="award-crest-corner tr"></div>
+          <div class="award-crest-corner bl"></div>
+          <div class="award-crest-corner br"></div>
+          <div class="award-crest-mono">The Middleton</div>
+          <div class="award-crest-serif">WSM</div>
+          <div class="award-crest-est">Est. MCMLX</div>
+        </div>
+        <dl class="award-meta-list">
+          <dt>Focus</dt><dd>Biomedical research</dd>
+          <dt>Established</dt><dd>1960 &nbsp;·&nbsp; oldest of the four</dd>
+          <dt>Sponsor</dt><dd>MedHealth Broad Portfolio</dd>
+          <dt>Namesake</dt><dd>William S. Middleton, M.D.</dd>
+          <dt>Held</dt><dd>VA Chief Medical Director, 1955–1963</dd>
+        </dl>
+      </div>
+    </aside>
+
+    <div class="award-body">
+      <div class="award-label">Award No. I</div>
+      <h3 class="award-title">The <em>Middleton</em></h3>
+      <p class="award-subtitle">A sixty-year career, seven thousand five hundred research projects, and the architecture every other award in this set now sits inside.</p>
+
+      <div class="award-section-label">The Namesake</div>
+      <div class="award-prose">
+        <p>William S. Middleton earned his medical degree from the University of Pennsylvania in 1911. He began teaching at the University of Wisconsin the following year, became a full professor in 1933, and served as Dean of the medical school for twenty years after that. In 1955, he was appointed Chief Medical Director at VA.</p>
+        <p>What he built there is the reason this award exists. Middleton created the official VA research program, established and appointed the first Advisory Committee on Research, and by the time he retired in 1963, over <strong>7,500 research projects</strong> had been undertaken by VA as a direct result of his initiative. He authored more than 300 scholarly papers and was an Honorary Fellow or member of more than a dozen national and international societies.</p>
+      </div>
+
+      <div class="award-section-label">What the Award Recognizes</div>
+      <div class="award-prose">
+        <p>The highest honor for scientific achievement in Veteran-centric biomedical research. Biomedical here means foundational and translational research on conditions that disproportionately affect veterans.</p>
+      </div>
+
+      <div class="design-cues">
+        <div class="design-cues-label">Design Cues</div>
+        <div class="design-cues-text">
+          Foundational. Venerable. Academic. The oldest of the four because Middleton built the program the other three sit inside. The brand should carry institutional weight — lineage, rigor, long horizon. A more classical register than the others is justified, and probably correct. <em>This is the patriarch of the set.</em>
+        </div>
+        <div class="design-cues-palette">
+          <div class="swatch" style="background: #6F1F1A;"><div class="swatch-label">#6F1F1A</div></div>
+          <div class="swatch" style="background: #8F3F3A;"><div class="swatch-label">#8F3F3A</div></div>
+          <div class="swatch" style="background: #C9A99A;"><div class="swatch-label">#C9A99A</div></div>
+          <div class="swatch" style="background: #EBD7D3;"><div class="swatch-label">#EBD7D3</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— MAGNUSON ——— -->
+<section class="award-section" id="magnuson" data-award="magnuson">
+  <div class="container">
+    <aside class="award-aside">
+      <div class="award-aside-sticky">
+        <div class="award-crest">
+          <div class="award-crest-corner tl"></div>
+          <div class="award-crest-corner tr"></div>
+          <div class="award-crest-corner bl"></div>
+          <div class="award-crest-corner br"></div>
+          <div class="award-crest-mono">The Magnuson</div>
+          <div class="award-crest-serif">PBM</div>
+          <div class="award-crest-est">Est. MCMXCVIII</div>
+        </div>
+        <dl class="award-meta-list">
+          <dt>Focus</dt><dd>Rehabilitation research</dd>
+          <dt>Established</dt><dd>1998</dd>
+          <dt>Sponsor</dt><dd>RRDT Broad Portfolio</dd>
+          <dt>Namesake</dt><dd>Paul B. Magnuson, M.D.</dd>
+          <dt>Held</dt><dd>VA Chief Medical Director, 1948–1951</dd>
+        </dl>
+      </div>
+    </aside>
+
+    <div class="award-body">
+      <div class="award-label">Award No. II</div>
+      <h3 class="award-title">The <em>Magnuson</em></h3>
+      <p class="award-subtitle">A bone and joint surgeon who fought for Title 38, founded the Rehabilitation Institute of Chicago, and wrote the moral brief for rehabilitation medicine in a single sentence.</p>
+
+      <div class="award-section-label">The Namesake</div>
+      <div class="award-prose">
+        <p>Paul B. Magnuson built modern VA healthcare from the inside. As administrator under General Paul Hawley, and then as Chief Medical Director from 1948–1951, he fought for <strong>Title 38 hiring authority</strong> — the reason VA can hire outside Civil Service — and created the medical school affiliation system that staffs VA hospitals to this day.</p>
+        <p>Outside VA: Chairman of Bone and Joint Surgery at Northwestern, founder of the Rehabilitation Institute of Chicago, Founding Member of the American Board of Surgery, Fellow of the American College of Surgeons. A bedside humanist and an institutional architect, simultaneously.</p>
+      </div>
+
+      <div class="award-pullquote">
+        People are no more alike in the shape and functional movements of their bodies and limbs than they are in their faces.
+        <cite>— Paul B. Magnuson, M.D.</cite>
+      </div>
+
+      <div class="award-prose">
+        <p>And on the purpose of medicine itself, he said his duty was <em>not only to cure, but also to restore a patient to his family, his job, and his life.</em> That sentence is the moral center of rehabilitation medicine, and it's his voice.</p>
+      </div>
+
+      <div class="award-section-label">What the Award Recognizes</div>
+      <div class="award-prose">
+        <p>Outstanding achievement in rehabilitation research within VA. The program guide names three qualities explicitly: <strong>entrepreneurship, humanitarianism, and dedication to veterans.</strong> Those three words are the brief.</p>
+      </div>
+
+      <div class="design-cues">
+        <div class="design-cues-label">Design Cues</div>
+        <div class="design-cues-text">
+          Humanistic. Individual-focused. Entrepreneurial. Magnuson is both a bedside humanist and the architect of VA's hiring system; the brand can hold both. A warmer register than the others. <em>The "family, job, and life" framing is worth protecting in any visual or verbal system.</em>
+        </div>
+        <div class="design-cues-palette">
+          <div class="swatch" style="background: #B8612E;"><div class="swatch-label">#B8612E</div></div>
+          <div class="swatch" style="background: #D9864F;"><div class="swatch-label">#D9864F</div></div>
+          <div class="swatch" style="background: #E8B58F;"><div class="swatch-label">#E8B58F</div></div>
+          <div class="swatch" style="background: #F2E3D4;"><div class="swatch-label">#F2E3D4</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— UNDER SECRETARY'S ——— -->
+<section class="award-section" id="undersec" data-award="undersec">
+  <div class="container">
+    <aside class="award-aside">
+      <div class="award-aside-sticky">
+        <div class="award-crest">
+          <div class="award-crest-corner tl"></div>
+          <div class="award-crest-corner tr"></div>
+          <div class="award-crest-corner bl"></div>
+          <div class="award-crest-corner br"></div>
+          <div class="award-crest-mono">Under Secretary's</div>
+          <div class="award-crest-serif" style="font-size: 28px;">USH</div>
+          <div class="award-crest-est">Est. MCMXCVIII</div>
+        </div>
+        <dl class="award-meta-list">
+          <dt>Focus</dt><dd>Health systems research</dd>
+          <dt>Established</dt><dd>1998</dd>
+          <dt>Sponsor</dt><dd>HSR Broad Portfolio &nbsp;+ QUERI</dd>
+          <dt>Namesake</dt><dd style="font-style: italic; color: var(--ink-soft);">None — institutional</dd>
+        </dl>
+      </div>
+    </aside>
+
+    <div class="award-body">
+      <div class="award-label">Award No. III</div>
+      <h3 class="award-title">The <em>Under Secretary's Award</em></h3>
+      <p class="award-subtitle">The structural outlier. The only one in the set without a namesake, and the one built for the bridge between research and practice.</p>
+
+      <div class="award-section-label">The Absence of a Namesake</div>
+      <div class="award-prose">
+        <p>The Under Secretary's Award is named for the role — the senior VA position that ultimately approves all four awards. Not a person. Not a biography. <strong>An office.</strong></p>
+        <p>This is the structural outlier in the set. The other three are legacy honors; this one is an institutional authority award. Which means there is no person-story to design around. The brand will need to lean harder on what the award represents.</p>
+      </div>
+
+      <div class="award-section-label">What the Award Recognizes</div>
+      <div class="award-prose">
+        <p>Highest-level achievement in Health Systems Research (HSR), including implementation and evaluation contributions aligned with VA's Quality Enhancement Research Initiative (QUERI). Established in 1998 "in recognition of the importance of health systems research and its vital link to the health care of Veterans and the public."</p>
+        <p>The brief in a sentence: <em>how does research become practice</em>.</p>
+      </div>
+
+      <div class="design-cues">
+        <div class="design-cues-label">Design Cues</div>
+        <div class="design-cues-text">
+          Operational. Implementation-oriented. Systems-level. The bridge from scientific finding to system improvement. <em>An open design question worth naming:</em> should the system acknowledge this asymmetry with the other three, or smooth over it? The answer will shape the entire redesign.
+        </div>
+        <div class="design-cues-palette">
+          <div class="swatch" style="background: #2A3B5C;"><div class="swatch-label">#2A3B5C</div></div>
+          <div class="swatch" style="background: #4A5A7A;"><div class="swatch-label">#4A5A7A</div></div>
+          <div class="swatch" style="background: #A4AEC4;"><div class="swatch-label">#A4AEC4</div></div>
+          <div class="swatch" style="background: #DDE1EB;"><div class="swatch-label">#DDE1EB</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— BARNWELL ——— -->
+<section class="award-section" id="barnwell" data-award="barnwell">
+  <div class="container">
+    <aside class="award-aside">
+      <div class="award-aside-sticky">
+        <div class="award-crest">
+          <div class="award-crest-corner tl"></div>
+          <div class="award-crest-corner tr"></div>
+          <div class="award-crest-corner bl"></div>
+          <div class="award-crest-corner br"></div>
+          <div class="award-crest-mono">The Barnwell</div>
+          <div class="award-crest-serif">JBB</div>
+          <div class="award-crest-est">Est. MMVII</div>
+        </div>
+        <dl class="award-meta-list">
+          <dt>Focus</dt><dd>Clinical research</dd>
+          <dt>Established</dt><dd>2007 &nbsp;·&nbsp; youngest of the four</dd>
+          <dt>Sponsor</dt><dd>BBMH Broad Portfolio &nbsp;+ Cooperative Studies</dd>
+          <dt>Namesake</dt><dd>John Blair Barnwell, M.D.</dd>
+          <dt>Held</dt><dd>Director of Research &amp; Education, VA Central Office, 1940s</dd>
+        </dl>
+      </div>
+    </aside>
+
+    <div class="award-body">
+      <div class="award-label">Award No. IV</div>
+      <h3 class="award-title">The <em>Barnwell</em></h3>
+      <p class="award-subtitle">The man who pioneered the multi-site clinical trial after World War II, and the award whose co-sponsor is the institutional descendant of the program he built.</p>
+
+      <div class="award-section-label">The Namesake</div>
+      <div class="award-prose">
+        <p>John Blair Barnwell was Director of Research and Education at VA Central Office in the 1940s. Before VA, a Professor at the University of Michigan. At VA he directed the Tuberculosis Division (1946–1960) and served as President of the National Tuberculosis Society.</p>
+        <p>His signature contribution was forming the <strong>VA/Army-Navy Cooperative Studies in the Chemotherapy of Tuberculosis Program</strong> after WWII. That program pioneered the multi-site clinical trial model that is now standard across medical research everywhere. His honors include the Trudeau Medal (1950, then the highest honor from the National Tuberculosis Society), the Dearholt Medal, and the Bruce H. Douglas Award from the American Thoracic Society.</p>
+      </div>
+
+      <div class="award-section-label">A Note on the Co-Sponsorship</div>
+      <div class="award-prose">
+        <p>The Barnwell is co-sponsored by the <em>Cooperative Studies Program</em>. That is direct homage. Barnwell invented cooperative studies; the CSP is his institutional descendant. The design should honor that lineage.</p>
+      </div>
+
+      <div class="award-section-label">What the Award Recognizes</div>
+      <div class="award-prose">
+        <p>Senior VHA investigators with national and international acclaim for clinical research in areas of prime importance to VA's mission, who also demonstrate a high level of clinical commitment to veterans.</p>
+      </div>
+
+      <div class="design-cues">
+        <div class="design-cues-label">Design Cues</div>
+        <div class="design-cues-text">
+          Multi-site. Collaborative. Evidence-built. The Barnwell legacy is about <em>coordinated science across institutions,</em> not lone-genius research. Visual language should signal connection, distributed work, and collective rigor. Post-WWII cooperative science and the TB research lineage are available texture.
+        </div>
+        <div class="design-cues-palette">
+          <div class="swatch" style="background: #2C5F5D;"><div class="swatch-label">#2C5F5D</div></div>
+          <div class="swatch" style="background: #4A807E;"><div class="swatch-label">#4A807E</div></div>
+          <div class="swatch" style="background: #9CB8B6;"><div class="swatch-label">#9CB8B6</div></div>
+          <div class="swatch" style="background: #E0ECEB;"><div class="swatch-label">#E0ECEB</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— OPERATIONAL FOUNDATION ——— -->
+<section>
+  <div class="container">
+    <div class="section-label"><span>§ IV &nbsp;—&nbsp; The Shared Machinery</span></div>
+    <h2 class="section-title">Underneath the four legacies, the operational structure is <em>identical</em>. Same eligibility, same prize, same approval chain. Difference is expressed on top of sameness.</h2>
+
+    <div class="ops-table">
+      <div class="ops-row">
+        <div class="ops-key">Eligibility</div>
+        <div class="ops-val">VA paid appointment ≥25 hrs/wk &nbsp;·&nbsp; 5+ years at a VA facility &nbsp;·&nbsp; 10+ years as Principal Investigator on funded grants &nbsp;·&nbsp; first-time awardee only</div>
+      </div>
+      <div class="ops-row">
+        <div class="ops-key">Cash Award</div>
+        <div class="ops-val">$10,000 personal cash award &nbsp;+ $50,000 per year for 3 years of research support</div>
+      </div>
+      <div class="ops-row">
+        <div class="ops-key">Recognition</div>
+        <div class="ops-val">Inscribed plaque &nbsp;+ formal ceremony</div>
+      </div>
+      <div class="ops-row">
+        <div class="ops-key">Approval Chain</div>
+        <div class="ops-val ops-chain">
+          Review Committee<span class="ops-chain-arrow">→</span>Portfolio Executive Director<span class="ops-chain-arrow">→</span>ISRM Leadership Council<span class="ops-chain-arrow">→</span>CRADO<span class="ops-chain-arrow">→</span>Under Secretary for Health
+        </div>
+      </div>
+    </div>
+
+    <p style="font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.5; color: var(--ink-soft); margin-top: 32px; max-width: 680px;">
+      That shared foundation is itself a system-level design element. Same machinery, different legacy expression on top.
+    </p>
+  </div>
+</section>
+
+<!-- ——— PORTFOLIO OBSERVATIONS ——— -->
+<section>
+  <div class="container">
+    <div class="section-label"><span>§ V &nbsp;—&nbsp; For the Redesign</span></div>
+    <h2 class="section-title">Four decisions that should be made <em>on purpose,</em> not by default.</h2>
+
+    <div class="obs-grid">
+      <div class="obs-cell">
+        <div class="obs-num">i</div>
+        <div class="obs-head">Unify or Differentiate?</div>
+        <div class="obs-body">Three legacy awards plus one institutional award creates a structural asymmetry. Unification flattens the legacy stories; differentiation risks making the fourth feel like an odd child. Either works. The choice should be visible.</div>
+      </div>
+      <div class="obs-cell">
+        <div class="obs-num">ii</div>
+        <div class="obs-head">Acknowledge the Foundation?</div>
+        <div class="obs-body">Middleton is not one of four. He's the figure the other three awards exist inside of. The brand system can encode that with subtle lineage cues, or flatten it with parallelism. Name the choice.</div>
+      </div>
+      <div class="obs-cell">
+        <div class="obs-num">iii</div>
+        <div class="obs-head">Whose Voice in the System?</div>
+        <div class="obs-body">Magnuson's "family, job, and life" sentence belongs in the system somewhere — verbal brief, pull quote on the award itself, or ceremonial copy. Letting it go is a loss. The other namesakes deserve their registers too.</div>
+      </div>
+      <div class="obs-cell">
+        <div class="obs-num">iv</div>
+        <div class="obs-head">What the Under Secretary's Becomes</div>
+        <div class="obs-body">With no person-story to lean on, the Under Secretary's Award has to encode its meaning visually. The bridge from research to practice. An operational identity, not a biographical one. A real design problem.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— CLOSING ——— -->
+<section class="closing">
+  <div class="container">
+    <p class="closing-quote">
+      "Not only to cure, but also to restore a patient to his family, his job, and his life."
+    </p>
+    <div class="closing-attrib">
+      — Paul B. Magnuson, M.D. &nbsp;·&nbsp; on the purpose of medicine
+    </div>
+  </div>
+</section>
+
+<!-- ——— FOOTER ——— -->
+<footer>
+  <div class="container" style="display: flex; justify-content: space-between; gap: 40px; padding: 0 48px;">
+    <div>
+      Prepared as a brand reference<br>
+      <span style="opacity: 0.5;">Working document · not for distribution</span>
+    </div>
+    <div style="text-align: center;">
+      Primary source: <a href="https://www.research.va.gov/resources/policies/Program-Guide-1202-08-ISRM-Research-Awards.pdf" target="_blank" rel="noopener">Program Guide 1202.08</a>
+    </div>
+    <div style="text-align: right;">
+      Vol. I · No. 1<br>
+      <span style="opacity: 0.5;">2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
