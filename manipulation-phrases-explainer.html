@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naming the Game: 6 Phrases That Expose Manipulation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    color: #1a1a1a;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: #1a1a1a;
+    color: #f5f5f7;
+    padding: 72px 40px 60px;
+    text-align: center;
+  }
+
+  .hero-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #DA7756;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    max-width: 720px;
+    margin: 0 auto 20px;
+  }
+
+  .hero p {
+    font-size: 19px;
+    color: #86868b;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* TRIGGER SECTION */
+  .section {
+    padding: 64px 32px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #DA7756;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: #555;
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+
+  /* SIGNAL SPLIT */
+  .signal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 860px;
+    margin: 0 auto 48px;
+  }
+
+  .signal-card {
+    border-radius: 16px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .signal-card.cognitive {
+    background: #f0f4ff;
+    border: 1.5px solid #c7d4f8;
+  }
+
+  .signal-card.somatic {
+    background: #fff4f0;
+    border: 1.5px solid #f8c7b0;
+  }
+
+  .signal-card .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .cognitive .badge { background: #c7d4f8; color: #2a3a8a; }
+  .somatic .badge { background: #f8c7b0; color: #8a2a10; }
+
+  .signal-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+  }
+
+  .signal-card p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 16px;
+  }
+
+  .signal-card .trigger-note {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+
+  .cognitive .trigger-note { background: #dce5fc; color: #2a3a8a; }
+  .somatic .trigger-note { background: #fcd8c8; color: #7a2a10; }
+
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #999;
+    gap: 12px;
+    margin: -8px 0 40px;
+  }
+
+  .vs-divider::before, .vs-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+  }
+
+  /* SPECIFIC TRIGGERS */
+  .triggers-section {
+    background: #f7f7f7;
+    padding: 64px 32px;
+  }
+
+  .trigger-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .trigger-item {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border-left: 4px solid #DA7756;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .trigger-item .trigger-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .trigger-item h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+
+  .trigger-item p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  /* PHRASES GRID */
+  .phrases-section {
+    padding: 64px 32px;
+    background: white;
+  }
+
+  .phrases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .phrase-card {
+    background: #fafafa;
+    border: 1.5px solid #ebebeb;
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .phrase-card:hover {
+    border-color: #DA7756;
+    box-shadow: 0 4px 20px rgba(218, 119, 86, 0.12);
+    transform: translateY(-2px);
+  }
+
+  .phrase-number {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #DA7756;
+    margin-bottom: 10px;
+  }
+
+  .phrase-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+
+  .phrase-use {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+
+  .phrase-when {
+    font-size: 13px;
+    font-weight: 600;
+    color: #DA7756;
+    background: #fff4f0;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+
+  .phrase-when span {
+    font-weight: 800;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* SILENCE SECTION */
+  .silence-section {
+    background: #1a1a1a;
+    color: #f5f5f7;
+    padding: 64px 32px;
+    text-align: center;
+  }
+
+  .silence-section .section-label {
+    color: #DA7756;
+  }
+
+  .silence-section .section-title {
+    color: #f5f5f7;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .silence-section p {
+    font-size: 18px;
+    color: #999;
+    max-width: 580px;
+    margin: 0 auto 40px;
+  }
+
+  .response-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .response-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 24px 20px;
+  }
+
+  .response-card .r-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .response-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #f5f5f7;
+  }
+
+  .response-card p {
+    font-size: 14px;
+    color: #86868b;
+    margin: 0;
+  }
+
+  .honest .r-label { color: #5cb85c; }
+  .deflect .r-label { color: #f0c040; }
+  .escalate .r-label { color: #DA7756; }
+
+  /* PRINCIPLE */
+  .principle-section {
+    padding: 64px 32px;
+    background: #fff4f0;
+    text-align: center;
+  }
+
+  .principle-quote {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+    max-width: 620px;
+    margin: 0 auto 16px;
+    line-height: 1.3;
+  }
+
+  .principle-quote em {
+    color: #DA7756;
+    font-style: normal;
+  }
+
+  .principle-sub {
+    font-size: 17px;
+    color: #666;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* PROACTIVE NOTE */
+  .proactive-section {
+    padding: 64px 32px;
+    background: white;
+  }
+
+  .proactive-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #f7f7f7;
+    border-radius: 20px;
+    padding: 40px 44px;
+    border: 1.5px solid #ebebeb;
+  }
+
+  .proactive-box h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: #1a1a1a;
+  }
+
+  .proactive-box p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 14px;
+    line-height: 1.65;
+  }
+
+  .proactive-box p:last-child { margin-bottom: 0; }
+
+  .proactive-box strong { color: #DA7756; }
+
+  footer {
+    text-align: center;
+    padding: 32px;
+    background: #f7f7f7;
+    font-size: 13px;
+    color: #aaa;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 32px; }
+    .signal-grid { grid-template-columns: 1fr; }
+    .response-grid { grid-template-columns: 1fr; }
+    .phrase-card { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Psychological Tools</div>
+  <h1>Naming the Game</h1>
+  <p>6 phrases that expose manipulation — not by accusing, but by naming what's happening out loud.</p>
+</div>
+
+<!-- TRIGGER SIGNAL SECTION -->
+<div class="section" style="background:#fff; padding-bottom:0;">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">Before You Speak</div>
+    <div class="section-title">Know Your Signal</div>
+    <p class="section-sub" style="margin: 0 auto 36px;">These phrases aren't for every moment of confusion. They're for a specific internal signal. Learn the difference.</p>
+  </div>
+</div>
+
+<div class="section" style="padding-top:24px;">
+  <div class="signal-grid" style="max-width:860px; margin:0 auto;">
+    <div class="signal-card cognitive">
+      <div class="badge">Cognitive Signal</div>
+      <h3>Simple Confusion</h3>
+      <p>You don't fully understand what someone is saying. The information is incomplete or unclear.</p>
+      <div class="trigger-note">Ask a clarifying question. This is not the trigger for these phrases.</div>
+    </div>
+    <div class="signal-card somatic">
+      <div class="badge">Somatic Signal — The Real Trigger</div>
+      <h3>The Felt Mismatch</h3>
+      <p>What they're saying and what you're feeling don't line up. Their words seem fine. Your gut disagrees.</p>
+      <div class="trigger-note">This is the trigger. Something landed before you could name it. Use the phrases here.</div>
+    </div>
+  </div>
+
+  <div class="vs-divider" style="max-width:860px; margin:0 auto 8px;">
+    CONFUSION IS COGNITIVE &nbsp;·&nbsp; THE MISMATCH IS SOMATIC
+  </div>
+</div>
+
+<!-- SPECIFIC TRIGGERS -->
+<div class="triggers-section">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">When Specifically</div>
+    <div class="section-title" style="text-align:center;">4 Moments That Call for a Phrase</div>
+    <p class="section-sub" style="margin:0 auto 36px; text-align:center;">Watch for these in real time. They are the body telling you the intent isn't clean.</p>
+    <div class="trigger-list">
+      <div class="trigger-item">
+        <div class="trigger-icon">✂️</div>
+        <h4>You're Editing Yourself</h4>
+        <p>You're adjusting what you say mid-sentence to manage their reaction. The frame already shifted — and you didn't choose it.</p>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-icon">🔍</div>
+        <h4>You Feel Like the Problem</h4>
+        <p>You have an urge to over-explain or justify yourself and you can't identify why. Manipulation makes the target feel responsible.</p>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-icon">🌀</div>
+        <h4>The Conversation Has Drifted</h4>
+        <p>You came to talk about X. Somehow you're on Y and you can't trace how you got there. That drift was not an accident.</p>
+      </div>
+      <div class="trigger-item">
+        <div class="trigger-icon">⏱️</div>
+        <h4>Pressure to Decide Now</h4>
+        <p>There's a subtle urgency to commit or respond faster than feels right. That pressure is manufactured. Slow down.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHRASES GRID -->
+<div class="phrases-section">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">The Tools</div>
+    <div class="section-title" style="text-align:center;">6 Phrases That Name the Game</div>
+    <p class="section-sub" style="margin:0 auto 40px; text-align:center;">Say one. Then stop talking. Silence does the rest.</p>
+    <div class="phrases-grid">
+
+      <div class="phrase-card">
+        <div class="phrase-number">Phrase 01</div>
+        <div class="phrase-text">"It seems like you're wanting me to feel ___. Was that your intent?"</div>
+        <div class="phrase-use">You're not accusing. You're checking alignment. Clean intent gets corrected fast. Unclear intent produces a pause that tells you everything.</div>
+        <div class="phrase-when"><span>Use When</span>You feel something that doesn't match their words — pressured, guilty, or warned without a direct statement.</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-number">Phrase 02</div>
+        <div class="phrase-text">"Help me understand what reaction you're hoping for here."</div>
+        <div class="phrase-use">Moves the conversation from what was said to what outcome they're after. Forces intent into the open without requiring you to guess.</div>
+        <div class="phrase-when"><span>Use When</span>The words feel strategic. Like they're designed to produce a specific emotional response in you.</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-number">Phrase 03</div>
+        <div class="phrase-text">"Before I respond — what are you actually wanting from me right now?"</div>
+        <div class="phrase-use">Either a real request surfaces or the pressure collapses. There's no clean answer to this question when the real answer is hidden.</div>
+        <div class="phrase-when"><span>Use When</span>Someone is running a loyalty pitch or emotional appeal without naming what they actually want from you.</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-number">Phrase 04</div>
+        <div class="phrase-text">"I thought we were talking about X — but it feels like we're on Y."</div>
+        <div class="phrase-use">Quiet frame control. You're not accusing them of changing the subject. You're naming the drift and redirecting back to the original structure.</div>
+        <div class="phrase-when"><span>Use When</span>The conversation has shifted away from what you came to discuss and you can't track how it happened.</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-number">Phrase 05</div>
+        <div class="phrase-text">"That commitment felt like it might be designed to shift control of the conversation."</div>
+        <div class="phrase-use">Once control is named out loud, it can't stay hidden. This one is direct and should be used when you're confident about what you're sensing.</div>
+        <div class="phrase-when"><span>Use When</span>Someone makes a statement that feels like it's designed to put them in charge of what happens next.</div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-number">Phrase 06</div>
+        <div class="phrase-text">"That's a clever reframe. It puts you in the reasonable seat and me in the irrational one. I'd rather keep this honest."</div>
+        <div class="phrase-use">Ends the game entirely. You've named the move, the result, and the standard you're holding the conversation to — in one sentence.</div>
+        <div class="phrase-when"><span>Use When</span>They've repositioned your words or reaction so that disagreeing with them makes you look unreasonable.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SILENCE SECTION -->
+<div class="silence-section">
+  <div class="section-label">The Mechanism</div>
+  <div class="section-title">Say It. Then Go Quiet.</div>
+  <p>The phrase names the pattern. Silence creates the pressure for them to respond to it. You've done your part. Let the moment work.</p>
+  <div class="response-grid">
+    <div class="response-card honest">
+      <div class="r-label">If intent was clean</div>
+      <h4>They Correct You</h4>
+      <p>"Oh no — I didn't mean it that way. Let me be clearer." Fast, easy, no defensiveness.</p>
+    </div>
+    <div class="response-card deflect">
+      <div class="r-label">If intent was unclear</div>
+      <h4>They Backpedal</h4>
+      <p>Sudden over-explanation, subject change, or "you're reading too much into it." The scramble is the signal.</p>
+    </div>
+    <div class="response-card escalate">
+      <div class="r-label">If intent was hidden</div>
+      <h4>They Shift Tactics</h4>
+      <p>The conversation pivots. New pressure appears. The original move gets abandoned. You've exposed it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CORE PRINCIPLE -->
+<div class="principle-section">
+  <div class="principle-quote">"Manipulation only works when <em>intent is invisible.</em> Once it's seen and brought into light — the game is open."</div>
+  <p class="principle-sub">These phrases don't require proof. They don't require confrontation. They require visibility. That's enough.</p>
+</div>
+
+<!-- PROACTIVE USE NOTE -->
+<div class="proactive-section">
+  <div class="container">
+    <div class="proactive-box">
+      <h3>Why Learn Tools Before You Need Them</h3>
+      <p>Most people learn communication frameworks intellectually — and then freeze when the moment arrives because they've never rehearsed how the tool actually lands. By the time the pressure is real, there's no bandwidth to think and respond well at the same time.</p>
+      <p><strong>The dry run matters.</strong> Walk the phrases through real-world scenarios. Picture the specific person, the specific context, the specific phrase. Build the muscle memory before there's anything at stake.</p>
+      <p>These phrases also transfer. They're not just for obvious manipulators. They work with coworkers, in relationships, with family — anyone whose intent is unclear in a given moment. <strong>You're not building a weapon against one person. You're building a general capacity to name what's happening in real time, without escalating.</strong></p>
+      <p>That capacity is worth carrying everywhere.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Naming the Game · Psychological Tools for Real-Time Clarity</footer>
+
+</body>
+</html>
