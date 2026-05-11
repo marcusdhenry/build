@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCAR — The Federal Narrative Framework</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 80px; }
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #DA7756;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+    line-height: 1.05;
+  }
+  .subtitle {
+    font-size: 22px;
+    color: #86868b;
+    font-weight: 400;
+    max-width: 720px;
+  }
+
+  /* SECTION HEADERS */
+  .section { margin-bottom: 80px; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #86868b;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 32px;
+    line-height: 1.15;
+  }
+
+  /* THE PROPORTION BAR — THE MAIN VISUAL */
+  .proportion-bar {
+    display: flex;
+    height: 100px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .bar-segment {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    transition: all 0.3s ease;
+    cursor: default;
+    position: relative;
+  }
+  .bar-segment:hover { filter: brightness(1.15); }
+  .bar-letter {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .bar-percent {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+  .seg-challenge { background: #3a5a8c; flex: 1; }
+  .seg-context   { background: #2d6a5f; flex: 1; }
+  .seg-action    { background: #DA7756; flex: 3; }
+  .seg-result    { background: #8a4f7d; flex: 2; }
+
+  .bar-caption {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #86868b;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+
+  /* THE FOUR DEEP-DIVE CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+  .card.c-challenge::before { background: #3a5a8c; }
+  .card.c-context::before   { background: #2d6a5f; }
+  .card.c-action::before    { background: #DA7756; }
+  .card.c-result::before    { background: #8a4f7d; }
+
+  .card-letter {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .card.c-challenge .card-letter { color: #6b8bbf; }
+  .card.c-context   .card-letter { color: #4d9b8d; }
+  .card.c-action    .card-letter { color: #DA7756; }
+  .card.c-result    .card-letter { color: #b87aa8; }
+
+  .card-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .card-def {
+    font-size: 15px;
+    color: #c4c4c8;
+    margin-bottom: 20px;
+    line-height: 1.55;
+  }
+  .card-questions {
+    list-style: none;
+    padding: 0;
+  }
+  .card-questions li {
+    font-size: 14px;
+    color: #86868b;
+    padding: 8px 0 8px 20px;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .card-questions li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: #DA7756;
+    font-weight: 700;
+  }
+  .card-questions li:first-child { border-top: none; }
+
+  /* WORKED EXAMPLE */
+  .example-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .example-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .example-row:last-child { border-bottom: none; }
+  .example-tag {
+    padding: 24px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: flex-start;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .example-tag.t-challenge { color: #6b8bbf; background: rgba(58,90,140,0.08); }
+  .example-tag.t-context   { color: #4d9b8d; background: rgba(45,106,95,0.08); }
+  .example-tag.t-action    { color: #DA7756; background: rgba(218,119,86,0.08); }
+  .example-tag.t-result    { color: #b87aa8; background: rgba(138,79,125,0.08); }
+  .example-text {
+    padding: 24px 28px;
+    font-size: 15px;
+    color: #d4d4d8;
+    line-height: 1.65;
+  }
+  .example-text strong { color: #f5f5f7; font-weight: 600; }
+
+  /* PITFALLS GRID */
+  .pitfalls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .pitfall {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .pitfall-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .pitfall-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .pitfall-body {
+    font-size: 13px;
+    color: #86868b;
+    line-height: 1.55;
+  }
+
+  /* COMPARISON */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .compare-side {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .compare-side h3 {
+    font-size: 20px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .compare-side .ccar-tag { color: #DA7756; }
+  .compare-side .star-tag { color: #86868b; }
+  .compare-side .compare-sub {
+    font-size: 13px;
+    color: #86868b;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .compare-letters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .compare-letter {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    font-size: 11px;
+    color: #86868b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .compare-letter strong {
+    display: block;
+    font-size: 20px;
+    color: #f5f5f7;
+    margin-bottom: 4px;
+    font-weight: 800;
+  }
+  .compare-note {
+    font-size: 14px;
+    color: #c4c4c8;
+    line-height: 1.6;
+  }
+
+  /* TAKEAWAY */
+  .takeaway {
+    background: linear-gradient(135deg, rgba(218,119,86,0.12), rgba(218,119,86,0.04));
+    border: 1px solid rgba(218,119,86,0.25);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+  }
+  .takeaway-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    color: #DA7756;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .takeaway p {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.5;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .takeaway p strong { color: #DA7756; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .container { padding: 48px 24px; }
+    h1 { font-size: 44px; }
+    h2 { font-size: 28px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .pitfalls { grid-template-columns: 1fr; }
+    .compare { grid-template-columns: 1fr; }
+    .example-row { grid-template-columns: 1fr; }
+    .example-tag { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .proportion-bar { flex-direction: column; height: auto; }
+    .bar-segment { padding: 20px; min-height: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="eyebrow">The Federal Narrative Framework</div>
+    <h1>CCAR</h1>
+    <p class="subtitle">Challenge. Context. Action. Result. The standard storytelling structure for KSAs, ECQs, and leadership applications across the federal government.</p>
+  </header>
+
+  <!-- THE MAIN VISUAL: PROPORTION -->
+  <section class="section">
+    <div class="section-label">At a glance</div>
+    <h2>The shape of a strong CCAR</h2>
+
+    <div class="proportion-bar">
+      <div class="bar-segment seg-challenge">
+        <div class="bar-letter">C</div>
+        <div class="bar-percent">~15%</div>
+      </div>
+      <div class="bar-segment seg-context">
+        <div class="bar-letter">C</div>
+        <div class="bar-percent">~15%</div>
+      </div>
+      <div class="bar-segment seg-action">
+        <div class="bar-letter">A</div>
+        <div class="bar-percent">~45%</div>
+      </div>
+      <div class="bar-segment seg-result">
+        <div class="bar-letter">R</div>
+        <div class="bar-percent">~25%</div>
+      </div>
+    </div>
+    <div class="bar-caption">
+      <span>Challenge</span>
+      <span>Context</span>
+      <span>Action</span>
+      <span>Result</span>
+    </div>
+    <p style="margin-top: 24px; color: #86868b; font-size: 15px; max-width: 800px;">Action gets the most real estate. Reviewers want to see what <em>you</em> did, not the situation that surrounded you. Challenge and Context exist to make the Action legible. Result proves it mattered.</p>
+  </section>
+
+  <!-- THE FOUR DEEP-DIVE CARDS -->
+  <section class="section">
+    <div class="section-label">Component breakdown</div>
+    <h2>What each piece is doing</h2>
+
+    <div class="card-grid">
+
+      <div class="card c-challenge">
+        <div class="card-letter">C</div>
+        <div class="card-name">Challenge</div>
+        <p class="card-def">The problem, opportunity, or situation that required someone to step up. Frame it sharply enough that the reader feels the stakes.</p>
+        <ul class="card-questions">
+          <li>What was broken, blocked, or at risk?</li>
+          <li>Why did it matter to the mission?</li>
+          <li>What made it hard or non-obvious?</li>
+        </ul>
+      </div>
+
+      <div class="card c-context">
+        <div class="card-letter">C</div>
+        <div class="card-name">Context</div>
+        <p class="card-def">The conditions around the challenge. Your role, the stakeholders, the constraints, the timeline. Just enough scaffolding for the reader to evaluate your judgment.</p>
+        <ul class="card-questions">
+          <li>What was your role and authority?</li>
+          <li>Who else was involved?</li>
+          <li>What constraints (time, budget, policy) shaped the decision space?</li>
+        </ul>
+      </div>
+
+      <div class="card c-action">
+        <div class="card-letter">A</div>
+        <div class="card-name">Action</div>
+        <p class="card-def">What you personally did. First person, specific verbs, sequenced decisions. This is the heart of the narrative. Surface the judgment call and name the alternative path you didn't take.</p>
+        <ul class="card-questions">
+          <li>What did you decide, and why?</li>
+          <li>What did you build, run, change, or escalate?</li>
+          <li>What did you do that someone else might not have?</li>
+        </ul>
+      </div>
+
+      <div class="card c-result">
+        <div class="card-letter">R</div>
+        <div class="card-name">Result</div>
+        <p class="card-def">The measurable outcome and the downstream impact. Numbers first when you have them. End on something that proves the work mattered beyond the immediate task.</p>
+        <ul class="card-questions">
+          <li>What changed because of what you did?</li>
+          <li>What's the metric, the count, the percentage?</li>
+          <li>What's the second-order impact or the lesson?</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORKED EXAMPLE -->
+  <section class="section">
+    <div class="section-label">Worked example</div>
+    <h2>One story, four moves</h2>
+
+    <div class="example-box">
+
+      <div class="example-row">
+        <div class="example-tag t-challenge">Challenge</div>
+        <div class="example-text">When the COVID-19 pandemic forced our installation into emergency posture, leadership needed a way to screen every person entering the gate, <strong>thousands per day</strong>, against a constantly shifting set of public health criteria. The paper-and-clipboard process couldn't keep up, and a single missed flag could put the entire workforce at risk.</div>
+      </div>
+
+      <div class="example-row">
+        <div class="example-tag t-context">Context</div>
+        <div class="example-text">I was serving as the communications lead, not a developer, when the Surgeon General's office asked whether we could stand something up in days, not months. We had no procurement runway, no dedicated engineering team, and screening criteria that were changing weekly.</div>
+      </div>
+
+      <div class="example-row">
+        <div class="example-tag t-action">Action</div>
+        <div class="example-text">I built a low-code screening app on the platform our team already had licensed, <strong>shipped a working prototype in 72 hours</strong>, and ran it past medical and security stakeholders in parallel rather than serially. When the criteria shifted, I treated the app as living infrastructure: I updated logic the same day, pushed the change to the gate within an hour, and documented every revision so the medical team could audit it. I chose speed over polish, deliberately, because a clipboard process was the alternative.</div>
+      </div>
+
+      <div class="example-row">
+        <div class="example-tag t-result">Result</div>
+        <div class="example-text">The app screened over <strong>40,000 personnel</strong> in its first month, eliminated the paper bottleneck at the gate, and was adopted by adjacent commands within the region. The episode taught me that agility, naming and accepting tradeoffs in real time, is itself a leadership competency, not a workaround for the absence of one.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMMON PITFALLS -->
+  <section class="section">
+    <div class="section-label">Watch for</div>
+    <h2>Common ways CCARs go sideways</h2>
+
+    <div class="pitfalls">
+
+      <div class="pitfall">
+        <span class="pitfall-icon">📚</span>
+        <div class="pitfall-title">Buried Action</div>
+        <p class="pitfall-body">Three paragraphs of Context, one sentence of what you did. Reviewers can't score what they can't find.</p>
+      </div>
+
+      <div class="pitfall">
+        <span class="pitfall-icon">👥</span>
+        <div class="pitfall-title">"We" instead of "I"</div>
+        <p class="pitfall-body">Federal rubrics score individuals. "Our team rolled it out" is invisible. "I led the rollout" is scoreable.</p>
+      </div>
+
+      <div class="pitfall">
+        <span class="pitfall-icon">📉</span>
+        <div class="pitfall-title">Vague Result</div>
+        <p class="pitfall-body">"It went well" earns nothing. "Cut processing time from 14 days to 3" earns the point.</p>
+      </div>
+
+      <div class="pitfall">
+        <span class="pitfall-icon">🎯</span>
+        <div class="pitfall-title">Wrong competency</div>
+        <p class="pitfall-body">A good story attached to the wrong rubric still loses. Map the Action to the competency definition, explicitly.</p>
+      </div>
+
+      <div class="pitfall">
+        <span class="pitfall-icon">🔍</span>
+        <div class="pitfall-title">No judgment call</div>
+        <p class="pitfall-body">If the path was obvious, the story is weak. Name the alternative you rejected and why.</p>
+      </div>
+
+      <div class="pitfall">
+        <span class="pitfall-icon">📖</span>
+        <div class="pitfall-title">Narrative over signposting</div>
+        <p class="pitfall-body">Especially in video prompts: rubrics reward explicit competency naming. Beautiful stories that never say the magic words underscore.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section">
+    <div class="section-label">Related framework</div>
+    <h2>CCAR vs STAR</h2>
+
+    <div class="compare">
+
+      <div class="compare-side">
+        <h3 class="ccar-tag">CCAR</h3>
+        <div class="compare-sub">Federal applications</div>
+        <div class="compare-letters">
+          <div class="compare-letter"><strong>C</strong>Challenge</div>
+          <div class="compare-letter"><strong>C</strong>Context</div>
+          <div class="compare-letter"><strong>A</strong>Action</div>
+          <div class="compare-letter"><strong>R</strong>Result</div>
+        </div>
+        <p class="compare-note">Separates the problem (Challenge) from the surrounding conditions (Context). Built for written narratives where reviewers need to evaluate judgment under specific constraints. Standard for KSAs, ECQs, leadership program applications.</p>
+      </div>
+
+      <div class="compare-side">
+        <h3 class="star-tag">STAR</h3>
+        <div class="compare-sub">Behavioral interviews</div>
+        <div class="compare-letters">
+          <div class="compare-letter"><strong>S</strong>Situation</div>
+          <div class="compare-letter"><strong>T</strong>Task</div>
+          <div class="compare-letter"><strong>A</strong>Action</div>
+          <div class="compare-letter"><strong>R</strong>Result</div>
+        </div>
+        <p class="compare-note">Collapses Challenge and Context into a single Situation block, then isolates the specific Task you owned. Better suited to spoken interview answers where the listener needs less scaffolding to follow along.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TAKEAWAY -->
+  <section class="section">
+    <div class="takeaway">
+      <div class="takeaway-eyebrow">The bottom line</div>
+      <p>A good CCAR isn't a story about a thing that happened. It's <strong>evidence of judgment</strong>, structured so a stranger with a rubric can find the points.</p>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
