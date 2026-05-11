@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCAR Workshop</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* HEADER */
+  .header { margin-bottom: 32px; }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #DA7756;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    line-height: 1.05;
+  }
+  .subtitle {
+    font-size: 17px;
+    color: #86868b;
+    font-weight: 400;
+    max-width: 720px;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #f5f5f7;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+  .btn:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .btn.primary {
+    background: #DA7756;
+    border-color: #DA7756;
+    color: #1a1a1a;
+  }
+  .btn.primary:hover {
+    background: #e08768;
+    border-color: #e08768;
+  }
+  .btn.toast-confirm {
+    background: #2d6a5f;
+    border-color: #2d6a5f;
+    color: #f5f5f7;
+  }
+
+  /* LIVE PROPORTION BAR */
+  .live-bar-wrapper {
+    margin-bottom: 32px;
+  }
+  .live-bar-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #86868b;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+  .live-bar {
+    display: flex;
+    height: 56px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+  }
+  .live-bar-seg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: flex 0.25s ease;
+    min-width: 0;
+    overflow: hidden;
+    color: rgba(255,255,255,0.95);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .live-bar-seg.empty { background: transparent; flex: 1; color: #3a3a3c; font-size: 11px; }
+  .lb-challenge { background: #3a5a8c; }
+  .lb-context   { background: #2d6a5f; }
+  .lb-action    { background: #DA7756; color: #1a1a1a; }
+  .lb-result    { background: #8a4f7d; }
+  .live-bar-percent { font-size: 11px; opacity: 0.85; font-weight: 600; }
+
+  /* TARGET MARKER ROW */
+  .targets {
+    display: flex;
+    margin-top: 6px;
+    font-size: 10px;
+    color: #5a5a5e;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .target { padding-left: 6px; }
+  .t-challenge { flex: 15; }
+  .t-context   { flex: 15; }
+  .t-action    { flex: 45; }
+  .t-result    { flex: 25; }
+
+  /* WORKSPACE GRID */
+  .workspace {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* INPUT SECTIONS */
+  .input-stack { display: flex; flex-direction: column; gap: 16px; }
+  .field {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  .field:focus-within { border-color: rgba(218,119,86,0.4); }
+
+  .field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .field-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #f5f5f7;
+  }
+  .fl-challenge { background: #3a5a8c; }
+  .fl-context   { background: #2d6a5f; }
+  .fl-action    { background: #DA7756; color: #1a1a1a; }
+  .fl-result    { background: #8a4f7d; }
+
+  .field-name {
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .field-hint {
+    font-size: 11px;
+    color: #5a5a5e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .field-count {
+    font-size: 12px;
+    color: #86868b;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #f5f5f7;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 16px 18px;
+    resize: vertical;
+    min-height: 110px;
+    outline: none;
+  }
+  textarea::placeholder { color: #4a4a4e; font-style: italic; }
+
+  /* DIAGNOSTICS PANEL */
+  .diagnostics {
+    position: sticky;
+    top: 24px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .diag-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #86868b;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+  }
+
+  .health-score {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .health-num {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    color: #DA7756;
+    font-variant-numeric: tabular-nums;
+  }
+  .health-denom {
+    font-size: 18px;
+    color: #86868b;
+    font-weight: 600;
+  }
+  .health-label {
+    margin-left: auto;
+    font-size: 13px;
+    color: #c4c4c8;
+    font-weight: 600;
+  }
+
+  .check {
+    padding: 12px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .check:first-of-type { border-top: none; padding-top: 0; }
+  .check-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .check-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-good { background: #2d6a5f; box-shadow: 0 0 0 3px rgba(45,106,95,0.2); }
+  .dot-warn { background: #c89b3a; box-shadow: 0 0 0 3px rgba(200,155,58,0.2); }
+  .dot-bad  { background: #b54848; box-shadow: 0 0 0 3px rgba(181,72,72,0.2); }
+  .dot-neutral { background: #4a4a4e; }
+  .check-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f5f5f7;
+  }
+  .check-detail {
+    font-size: 12px;
+    color: #86868b;
+    padding-left: 20px;
+    line-height: 1.5;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2d6a5f;
+    color: #f5f5f7;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.25s ease;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .workspace { grid-template-columns: 1fr; }
+    .diagnostics { position: static; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 32px 20px; }
+    h1 { font-size: 32px; }
+    .live-bar { height: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="eyebrow">Interactive CCAR Builder</div>
+    <h1>CCAR Workshop</h1>
+    <p class="subtitle">Draft a Challenge, Context, Action, Result narrative. Get structural diagnostics keyed to the LVA rubric as you type.</p>
+  </header>
+
+  <div class="toolbar">
+    <button class="btn primary" onclick="copyMarkdown()">Copy as Markdown</button>
+    <button class="btn" onclick="copyPlain()">Copy plain text</button>
+    <button class="btn" onclick="loadExample()">Load example</button>
+    <button class="btn" onclick="clearAll()">Clear all</button>
+  </div>
+
+  <!-- LIVE PROPORTION BAR -->
+  <div class="live-bar-wrapper">
+    <div class="live-bar-label">Live proportion (target: 15 / 15 / 45 / 25)</div>
+    <div class="live-bar" id="liveBar">
+      <div class="live-bar-seg empty">Start typing to see proportions</div>
+    </div>
+    <div class="targets">
+      <div class="target t-challenge">↑ 15% Challenge</div>
+      <div class="target t-context">↑ 15% Context</div>
+      <div class="target t-action">↑ 45% Action</div>
+      <div class="target t-result">↑ 25% Result</div>
+    </div>
+  </div>
+
+  <!-- WORKSPACE -->
+  <div class="workspace">
+
+    <!-- LEFT: INPUT FIELDS -->
+    <div class="input-stack">
+
+      <div class="field">
+        <div class="field-header">
+          <div class="field-label">
+            <div class="field-letter fl-challenge">C</div>
+            <div>
+              <div class="field-name">Challenge</div>
+              <div class="field-hint">The problem and why it mattered</div>
+            </div>
+          </div>
+          <div class="field-count"><span id="count-challenge">0</span> chars</div>
+        </div>
+        <textarea id="challenge" placeholder="Frame the problem sharply. What was at risk, what was broken, what was non-obvious?" oninput="update()"></textarea>
+      </div>
+
+      <div class="field">
+        <div class="field-header">
+          <div class="field-label">
+            <div class="field-letter fl-context">C</div>
+            <div>
+              <div class="field-name">Context</div>
+              <div class="field-hint">Your role, the constraints, the stakes</div>
+            </div>
+          </div>
+          <div class="field-count"><span id="count-context">0</span> chars</div>
+        </div>
+        <textarea id="context" placeholder="Just enough scaffolding for the reader to evaluate your judgment. Role, stakeholders, time, budget, policy constraints." oninput="update()"></textarea>
+      </div>
+
+      <div class="field">
+        <div class="field-header">
+          <div class="field-label">
+            <div class="field-letter fl-action">A</div>
+            <div>
+              <div class="field-name">Action</div>
+              <div class="field-hint">What you personally did, in first person</div>
+            </div>
+          </div>
+          <div class="field-count"><span id="count-action">0</span> chars</div>
+        </div>
+        <textarea id="action" placeholder="First person, specific verbs, sequenced decisions. Surface the judgment call. Name the alternative path you rejected and why." oninput="update()"></textarea>
+      </div>
+
+      <div class="field">
+        <div class="field-header">
+          <div class="field-label">
+            <div class="field-letter fl-result">R</div>
+            <div>
+              <div class="field-name">Result</div>
+              <div class="field-hint">Measurable outcome plus downstream impact</div>
+            </div>
+          </div>
+          <div class="field-count"><span id="count-result">0</span> chars</div>
+        </div>
+        <textarea id="result" placeholder="Numbers first when you have them. End on something that proves the work mattered beyond the immediate task." oninput="update()"></textarea>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: DIAGNOSTICS -->
+    <aside class="diagnostics">
+      <div class="diag-title">Diagnostics</div>
+
+      <div class="health-score">
+        <span class="health-num" id="healthNum">0</span>
+        <span class="health-denom">/ 5</span>
+        <span class="health-label" id="healthLabel">Start writing</span>
+      </div>
+
+      <div class="check" id="check-length">
+        <div class="check-header">
+          <div class="check-dot dot-neutral"></div>
+          <div class="check-name">Total length</div>
+        </div>
+        <div class="check-detail" id="detail-length">0 / 5000 chars</div>
+      </div>
+
+      <div class="check" id="check-action-share">
+        <div class="check-header">
+          <div class="check-dot dot-neutral"></div>
+          <div class="check-name">Action is dominant</div>
+        </div>
+        <div class="check-detail" id="detail-action-share">Action should be your largest section.</div>
+      </div>
+
+      <div class="check" id="check-voice">
+        <div class="check-header">
+          <div class="check-dot dot-neutral"></div>
+          <div class="check-name">First person in Action</div>
+        </div>
+        <div class="check-detail" id="detail-voice">Rubrics score individuals, not teams.</div>
+      </div>
+
+      <div class="check" id="check-numbers">
+        <div class="check-header">
+          <div class="check-dot dot-neutral"></div>
+          <div class="check-name">Quantified Result</div>
+        </div>
+        <div class="check-detail" id="detail-numbers">At least one number in Result.</div>
+      </div>
+
+      <div class="check" id="check-judgment">
+        <div class="check-header">
+          <div class="check-dot dot-neutral"></div>
+          <div class="check-name">Judgment signal</div>
+        </div>
+        <div class="check-detail" id="detail-judgment">Phrases like "instead of", "chose to", "rather than" show a decision was made.</div>
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+  const fields = ['challenge', 'context', 'action', 'result'];
+
+  function getVals() {
+    return {
+      challenge: document.getElementById('challenge').value,
+      context:   document.getElementById('context').value,
+      action:    document.getElementById('action').value,
+      result:    document.getElementById('result').value
+    };
+  }
+
+  function update() {
+    const v = getVals();
+    const lens = {
+      challenge: v.challenge.length,
+      context:   v.context.length,
+      action:    v.action.length,
+      result:    v.result.length
+    };
+    const total = lens.challenge + lens.context + lens.action + lens.result;
+
+    // Update per-field counters
+    fields.forEach(f => {
+      document.getElementById('count-' + f).textContent = lens[f].toLocaleString();
+    });
+
+    // Update live bar
+    const bar = document.getElementById('liveBar');
+    if (total === 0) {
+      bar.innerHTML = '<div class="live-bar-seg empty">Start typing to see proportions</div>';
+    } else {
+      bar.innerHTML = '';
+      const segs = [
+        { id: 'challenge', cls: 'lb-challenge', letter: 'C' },
+        { id: 'context',   cls: 'lb-context',   letter: 'C' },
+        { id: 'action',    cls: 'lb-action',    letter: 'A' },
+        { id: 'result',    cls: 'lb-result',    letter: 'R' }
+      ];
+      segs.forEach(s => {
+        if (lens[s.id] === 0) return;
+        const pct = (lens[s.id] / total) * 100;
+        const div = document.createElement('div');
+        div.className = 'live-bar-seg ' + s.cls;
+        div.style.flex = pct;
+        if (pct >= 8) {
+          div.innerHTML = '<div>' + s.letter + '</div><div class="live-bar-percent">' + Math.round(pct) + '%</div>';
+        } else if (pct >= 4) {
+          div.innerHTML = '<div>' + s.letter + '</div>';
+        }
+        bar.appendChild(div);
+      });
+    }
+
+    // CHECK 1: Total length (LVA written prompt = 5000 char limit)
+    const lengthCheck = document.getElementById('check-length');
+    const lengthDetail = document.getElementById('detail-length');
+    const lengthDot = lengthCheck.querySelector('.check-dot');
+    lengthDetail.textContent = total.toLocaleString() + ' / 5,000 chars';
+    let lengthPass = false;
+    if (total === 0) {
+      setDot(lengthDot, 'neutral');
+    } else if (total > 5000) {
+      setDot(lengthDot, 'bad');
+      lengthDetail.textContent += ' (over limit by ' + (total - 5000).toLocaleString() + ')';
+    } else if (total < 2000) {
+      setDot(lengthDot, 'warn');
+      lengthDetail.textContent += ' (consider expanding)';
+    } else {
+      setDot(lengthDot, 'good');
+      lengthPass = true;
+    }
+
+    // CHECK 2: Action share
+    const actionShareCheck = document.getElementById('check-action-share');
+    const actionShareDetail = document.getElementById('detail-action-share');
+    const actionShareDot = actionShareCheck.querySelector('.check-dot');
+    let actionPass = false;
+    if (total === 0) {
+      setDot(actionShareDot, 'neutral');
+      actionShareDetail.textContent = 'Action should be your largest section.';
+    } else {
+      const actionPct = Math.round((lens.action / total) * 100);
+      const isLargest = lens.action >= Math.max(lens.challenge, lens.context, lens.result);
+      if (actionPct >= 40 && isLargest) {
+        setDot(actionShareDot, 'good');
+        actionShareDetail.textContent = 'Action is ' + actionPct + '% of total. Dominant.';
+        actionPass = true;
+      } else if (actionPct >= 30) {
+        setDot(actionShareDot, 'warn');
+        actionShareDetail.textContent = 'Action is ' + actionPct + '%. Push toward 45%.';
+      } else {
+        setDot(actionShareDot, 'bad');
+        actionShareDetail.textContent = 'Action is only ' + actionPct + '%. Expand what you did.';
+      }
+    }
+
+    // CHECK 3: Voice (I vs we in Action)
+    const voiceCheck = document.getElementById('check-voice');
+    const voiceDetail = document.getElementById('detail-voice');
+    const voiceDot = voiceCheck.querySelector('.check-dot');
+    let voicePass = false;
+    if (lens.action === 0) {
+      setDot(voiceDot, 'neutral');
+      voiceDetail.textContent = 'Rubrics score individuals, not teams.';
+    } else {
+      const iCount = (v.action.match(/\b(I|I'd|I'll|I've|I'm|my|me|myself)\b/g) || []).length;
+      const weCount = (v.action.match(/\b(we|We|we'd|We'd|we'll|We'll|we've|We've|we're|We're|our|Our|us|Us|ourselves)\b/g) || []).length;
+      if (iCount === 0 && weCount === 0) {
+        setDot(voiceDot, 'warn');
+        voiceDetail.textContent = 'No first-person pronouns detected in Action.';
+      } else if (iCount > weCount) {
+        setDot(voiceDot, 'good');
+        voiceDetail.textContent = '"I" appears ' + iCount + 'x, "we" appears ' + weCount + 'x. Strong individual voice.';
+        voicePass = true;
+      } else if (iCount === weCount && iCount > 0) {
+        setDot(voiceDot, 'warn');
+        voiceDetail.textContent = '"I" and "we" are tied (' + iCount + ' each). Lean harder on "I".';
+      } else {
+        setDot(voiceDot, 'bad');
+        voiceDetail.textContent = '"We" (' + weCount + 'x) outweighs "I" (' + iCount + 'x). Reframe in first person.';
+      }
+    }
+
+    // CHECK 4: Numbers in Result
+    const numCheck = document.getElementById('check-numbers');
+    const numDetail = document.getElementById('detail-numbers');
+    const numDot = numCheck.querySelector('.check-dot');
+    let numPass = false;
+    if (lens.result === 0) {
+      setDot(numDot, 'neutral');
+      numDetail.textContent = 'At least one number in Result.';
+    } else {
+      const numbers = v.result.match(/\d+/g) || [];
+      if (numbers.length >= 1) {
+        setDot(numDot, 'good');
+        numDetail.textContent = numbers.length + ' number' + (numbers.length === 1 ? '' : 's') + ' detected. Result is quantified.';
+        numPass = true;
+      } else {
+        setDot(numDot, 'bad');
+        numDetail.textContent = 'No numbers in Result. Add a metric, count, or percentage.';
+      }
+    }
+
+    // CHECK 5: Judgment signals in Action
+    const jCheck = document.getElementById('check-judgment');
+    const jDetail = document.getElementById('detail-judgment');
+    const jDot = jCheck.querySelector('.check-dot');
+    let jPass = false;
+    const judgmentPatterns = [
+      /\binstead of\b/i, /\brather than\b/i, /\bchose to\b/i, /\bdecided to\b/i,
+      /\bopted (to|for)\b/i, /\bover\s+(the|a)\b/i, /\bdeliberately\b/i,
+      /\bcalculated\b/i, /\btradeoff/i, /\bweigh(ed|ing)?\b/i,
+      /\bjudg(ed|ment)\b/i, /\bdetermined\b/i
+    ];
+    if (lens.action === 0) {
+      setDot(jDot, 'neutral');
+      jDetail.textContent = 'Phrases like "instead of", "chose to", "rather than" show a decision was made.';
+    } else {
+      const hits = judgmentPatterns.filter(p => p.test(v.action)).length;
+      if (hits >= 1) {
+        setDot(jDot, 'good');
+        jDetail.textContent = hits + ' judgment signal' + (hits === 1 ? '' : 's') + ' detected. The decision is visible.';
+        jPass = true;
+      } else {
+        setDot(jDot, 'warn');
+        jDetail.textContent = 'No judgment signals. Name what you considered and rejected.';
+      }
+    }
+
+    // Overall health score
+    const passes = [lengthPass, actionPass, voicePass, numPass, jPass].filter(Boolean).length;
+    document.getElementById('healthNum').textContent = passes;
+    const labels = ['Start writing', 'Rough draft', 'Coming together', 'Solid shape', 'Almost there', 'Ready to submit'];
+    document.getElementById('healthLabel').textContent = total === 0 ? labels[0] : labels[passes + (total > 0 ? 1 : 0)] || labels[5];
+  }
+
+  function setDot(el, type) {
+    el.classList.remove('dot-good', 'dot-warn', 'dot-bad', 'dot-neutral');
+    el.classList.add('dot-' + type);
+  }
+
+  function getMarkdown() {
+    const v = getVals();
+    return '## Challenge\n\n' + (v.challenge || '_(empty)_') +
+           '\n\n## Context\n\n' + (v.context || '_(empty)_') +
+           '\n\n## Action\n\n' + (v.action || '_(empty)_') +
+           '\n\n## Result\n\n' + (v.result || '_(empty)_') + '\n';
+  }
+
+  function getPlain() {
+    const v = getVals();
+    return [v.challenge, v.context, v.action, v.result].filter(Boolean).join('\n\n');
+  }
+
+  function copyMarkdown() {
+    navigator.clipboard.writeText(getMarkdown()).then(() => toast('Markdown copied'));
+  }
+  function copyPlain() {
+    navigator.clipboard.writeText(getPlain()).then(() => toast('Plain text copied'));
+  }
+
+  function clearAll() {
+    if (!confirm('Clear all four fields?')) return;
+    fields.forEach(f => document.getElementById(f).value = '');
+    update();
+  }
+
+  function loadExample() {
+    document.getElementById('challenge').value = "When the COVID-19 pandemic forced our installation into emergency posture, leadership needed a way to screen every person entering the gate, thousands per day, against a constantly shifting set of public health criteria. The paper-and-clipboard process couldn't keep up, and a single missed flag could put the entire workforce at risk.";
+    document.getElementById('context').value = "I was serving as the communications lead, not a developer, when the Surgeon General's office asked whether we could stand something up in days, not months. We had no procurement runway, no dedicated engineering team, and screening criteria that were changing weekly.";
+    document.getElementById('action').value = "I built a low-code screening app on the platform our team already had licensed and shipped a working prototype in 72 hours. I ran the build past medical and security stakeholders in parallel rather than serially, because the alternative was a clipboard process I knew would fail at scale. When criteria shifted, I treated the app as living infrastructure: I updated logic the same day, pushed changes to the gate within an hour, and documented every revision so the medical team could audit it. I chose speed over polish, deliberately, and accepted the tradeoff in real time.";
+    document.getElementById('result').value = "The app screened over 40,000 personnel in its first month, eliminated the paper bottleneck at the gate, and was adopted by 3 adjacent commands within the region. The episode taught me that agility, naming and accepting tradeoffs in real time, is itself a leadership competency, not a workaround for the absence of one.";
+    update();
+  }
+
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  // Init
+  update();
+</script>
+
+</body>
+</html>
