@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brew Bar · Pour-Over Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --espresso: #2B1810;
+    --espresso-soft: #3D2817;
+    --crema: #E8D5B7;
+    --parchment: #F4ECD8;
+    --parchment-light: #FAF4E4;
+    --copper: #B87333;
+    --copper-bright: #D08438;
+    --rust: #8B3A1F;
+    --steam: rgba(244, 236, 216, 0.75);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 30% 0%, #4A2F1C 0%, #2B1810 50%, #140A05 100%);
+    font-family: 'Fraunces', Georgia, serif;
+    color: var(--parchment);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* paper grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.10;
+    mix-blend-mode: overlay;
+    z-index: 1;
+  }
+
+  /* warm vignette */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(20, 10, 5, 0.5) 100%);
+    z-index: 1;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 560px;
+    background:
+      linear-gradient(165deg, var(--parchment-light) 0%, var(--parchment) 100%);
+    border-radius: 3px;
+    padding: 3rem 2.5rem 2.5rem;
+    color: var(--espresso);
+    box-shadow:
+      0 40px 100px rgba(0,0,0,0.6),
+      0 15px 35px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.5);
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(43, 24, 16, 0.12);
+  }
+
+  /* decorative corner marks */
+  .container::before,
+  .container::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-color: var(--copper);
+    pointer-events: none;
+  }
+  .container::before {
+    top: 14px; left: 14px;
+    border-top: 1px solid; border-left: 1px solid;
+  }
+  .container::after {
+    bottom: 14px; right: 14px;
+    border-bottom: 1px solid; border-right: 1px solid;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(43, 24, 16, 0.15);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 0.6rem;
+    transition: color 0.3s;
+  }
+
+  .title {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 600;
+    font-size: 2.8rem;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--espresso);
+    font-style: italic;
+  }
+
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    color: var(--espresso-soft);
+    margin-top: 0.6rem;
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+  }
+
+  /* main readout */
+  .readout {
+    position: relative;
+    margin: 2.5rem 0 1.5rem;
+  }
+
+  .dripper-wrap {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+  }
+
+  .dripper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .dripper svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    overflow: visible;
+  }
+
+  .dripper-bg {
+    fill: none;
+    stroke: rgba(43, 24, 16, 0.10);
+    stroke-width: 2;
+  }
+
+  .dripper-ticks {
+    fill: rgba(43, 24, 16, 0.25);
+  }
+
+  .dripper-fill {
+    fill: none;
+    stroke: var(--copper);
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 0 6px rgba(184, 115, 51, 0.4));
+  }
+
+  .bean-readout {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .bean-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 4.2rem;
+    color: var(--espresso);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .bean-number .unit-g {
+    font-size: 1.3rem;
+    color: var(--copper);
+    margin-left: 0.3rem;
+    font-weight: 400;
+  }
+
+  .bean-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-top: 0.7rem;
+  }
+
+  /* steam */
+  .steam {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 90px;
+    pointer-events: none;
+  }
+
+  .steam-puff {
+    position: absolute;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--steam);
+    border-radius: 50%;
+    filter: blur(3px);
+    opacity: 0;
+    animation: rise 4s infinite ease-out;
+  }
+
+  .steam-puff:nth-child(1) { left: 28%; animation-delay: 0s; }
+  .steam-puff:nth-child(2) { left: 52%; animation-delay: 1.3s; }
+  .steam-puff:nth-child(3) { left: 40%; animation-delay: 2.6s; }
+
+  @keyframes rise {
+    0%   { transform: translateY(0) scale(0.4); opacity: 0; }
+    20%  { opacity: 0.7; }
+    100% { transform: translateY(-90px) scale(2.5); opacity: 0; }
+  }
+
+  /* secondary stats */
+  .secondary-readout {
+    display: flex;
+    justify-content: center;
+    gap: 3.5rem;
+    margin-top: 1.8rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed rgba(43, 24, 16, 0.2);
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 1.7rem;
+    color: var(--espresso);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-number .unit {
+    font-size: 0.75rem;
+    color: var(--copper);
+    margin-left: 0.15rem;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--espresso-soft);
+    opacity: 0.65;
+    margin-top: 0.4rem;
+  }
+
+  /* controls */
+  .controls {
+    margin-top: 2rem;
+  }
+
+  .control {
+    margin-top: 1.6rem;
+  }
+
+  .control:first-child { margin-top: 0; }
+
+  .control-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.7rem;
+  }
+
+  .control-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--espresso);
+  }
+
+  .control-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--espresso);
+  }
+
+  .control-value .unit {
+    font-size: 0.7rem;
+    color: var(--copper);
+    margin-left: 0.25rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* sliders */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(
+      to right,
+      var(--copper) 0%,
+      var(--copper) var(--fill, 0%),
+      rgba(43, 24, 16, 0.18) var(--fill, 0%),
+      rgba(43, 24, 16, 0.18) 100%
+    );
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    background: radial-gradient(circle at 30% 30%, #4A2F1C, var(--espresso));
+    border-radius: 50%;
+    cursor: grab;
+    border: 3px solid var(--parchment-light);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition: transform 0.15s ease-out;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    background: radial-gradient(circle at 30% 30%, #4A2F1C, var(--espresso));
+    border-radius: 50%;
+    cursor: grab;
+    border: 3px solid var(--parchment-light);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+  }
+
+  .range-marks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--espresso-soft);
+    opacity: 0.55;
+    letter-spacing: 0.1em;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 2.2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(43, 24, 16, 0.1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--espresso-soft);
+    opacity: 0.55;
+  }
+
+  /* pulse animation when readout changes */
+  .pulse {
+    animation: pulse 0.4s ease-out;
+  }
+
+  @keyframes pulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 2.5rem 1.5rem 2rem; }
+    .title { font-size: 2.2rem; }
+    .dripper-wrap { width: 210px; height: 210px; }
+    .bean-number { font-size: 3.6rem; }
+    .secondary-readout { gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="header">
+      <div class="eyebrow" id="eyebrow">Balanced</div>
+      <h1 class="title">Brew Bar</h1>
+      <div class="subtitle">Pour-Over Bean Calculator</div>
+    </header>
+
+    <div class="readout">
+      <div class="dripper-wrap">
+        <div class="steam">
+          <div class="steam-puff"></div>
+          <div class="steam-puff"></div>
+          <div class="steam-puff"></div>
+        </div>
+        <div class="dripper">
+          <svg viewBox="0 0 240 240">
+            <circle class="dripper-bg" cx="120" cy="120" r="105"/>
+            <!-- tick marks around the dripper -->
+            <g class="dripper-ticks">
+              <circle cx="120" cy="10" r="1.5"/>
+              <circle cx="220" cy="60" r="1.5"/>
+              <circle cx="220" cy="180" r="1.5"/>
+              <circle cx="120" cy="230" r="1.5"/>
+              <circle cx="20" cy="180" r="1.5"/>
+              <circle cx="20" cy="60" r="1.5"/>
+            </g>
+            <circle class="dripper-fill" cx="120" cy="120" r="105"
+                    stroke-dasharray="659.7" stroke-dashoffset="500"/>
+          </svg>
+          <div class="bean-readout">
+            <div class="bean-number">
+              <span id="beanNumber">28.4</span>
+              <span class="unit-g">g</span>
+            </div>
+            <div class="bean-label">beans</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="secondary-readout">
+        <div class="stat">
+          <div class="stat-number"><span id="waterNumber">468</span><span class="unit"> g</span></div>
+          <div class="stat-label">water</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">1:<span id="ratioStat">16.5</span></div>
+          <div class="stat-label">ratio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+
+      <div class="control">
+        <div class="control-head">
+          <div class="control-label">Coffee volume</div>
+          <div class="control-value"><span id="ozValue">12</span><span class="unit">OZ</span></div>
+        </div>
+        <input type="range" id="ozSlider" min="8" max="32" step="1" value="12" aria-label="Coffee volume in ounces">
+        <div class="range-marks"><span>8 oz</span><span>32 oz</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <div class="control-label">Coffee to water ratio</div>
+          <div class="control-value">1:<span id="ratioValue">16.5</span></div>
+        </div>
+        <input type="range" id="ratioSlider" min="14" max="19" step="0.5" value="16.5" aria-label="Coffee to water ratio">
+        <div class="range-marks"><span>14 · stronger</span><span>lighter · 19</span></div>
+      </div>
+
+    </div>
+
+    <div class="footer">Measure · Bloom · Pour · Sip</div>
+
+  </div>
+
+<script>
+  const ozSlider    = document.getElementById('ozSlider');
+  const ratioSlider = document.getElementById('ratioSlider');
+  const ozValue     = document.getElementById('ozValue');
+  const ratioValue  = document.getElementById('ratioValue');
+  const ratioStat   = document.getElementById('ratioStat');
+  const beanNumber  = document.getElementById('beanNumber');
+  const waterNumber = document.getElementById('waterNumber');
+  const eyebrow     = document.getElementById('eyebrow');
+  const dripperFill = document.querySelector('.dripper-fill');
+
+  const CIRC = 2 * Math.PI * 105; // ~659.7
+
+  // 12 oz = 468 g of water (you confirmed this from your brew assistant)
+  const G_PER_OZ = 468 / 12; // 39
+
+  function strengthLabel(ratio) {
+    if (ratio <= 14.5) return 'Potent';
+    if (ratio <= 15.5) return 'Bold';
+    if (ratio <= 16.5) return 'Balanced';
+    if (ratio <= 17.5) return 'Bright';
+    return 'Light';
+  }
+
+  function update() {
+    const oz    = parseFloat(ozSlider.value);
+    const ratio = parseFloat(ratioSlider.value);
+    const water = oz * G_PER_OZ;
+    const beans = water / ratio;
+
+    ozValue.textContent     = oz;
+    ratioValue.textContent  = ratio.toFixed(1);
+    ratioStat.textContent   = ratio.toFixed(1);
+    beanNumber.textContent  = beans.toFixed(1);
+    waterNumber.textContent = Math.round(water);
+    eyebrow.textContent     = strengthLabel(ratio);
+
+    // ring fills proportionally to volume position in 8 to 32 range
+    const ozPct = (oz - 8) / (32 - 8);
+    dripperFill.style.strokeDashoffset = CIRC * (1 - ozPct);
+
+    // slider gradient fills
+    ozSlider.style.setProperty('--fill', (ozPct * 100) + '%');
+    const ratioPct = ((ratio - 14) / (19 - 14)) * 100;
+    ratioSlider.style.setProperty('--fill', ratioPct + '%');
+
+    // little pulse on the bean readout
+    beanNumber.parentElement.classList.remove('pulse');
+    void beanNumber.parentElement.offsetWidth;
+    beanNumber.parentElement.classList.add('pulse');
+  }
+
+  ozSlider.addEventListener('input', update);
+  ratioSlider.addEventListener('input', update);
+
+  update();
+</script>
+</body>
+</html>
