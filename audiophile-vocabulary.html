@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Audiophile's Vocabulary — A Reference Guide</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M 6 18 Q 6 6 16 6 Q 26 6 26 18' stroke='%23DA7756' stroke-width='2.5' fill='none' stroke-linecap='round'/><rect x='3' y='16' width='7' height='11' rx='2' fill='%23DA7756'/><rect x='22' y='16' width='7' height='11' rx='2' fill='%23DA7756'/></svg>">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f7;
+    line-height: 1.65;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #f5f5f7 0%, #DA7756 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: #86868b;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .source-note {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #86868b;
+    font-style: italic;
+  }
+
+  section {
+    margin-bottom: 72px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #DA7756;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #f5f5f7;
+  }
+
+  .section-intro {
+    color: #c7c7cc;
+    font-size: 17px;
+    margin-bottom: 32px;
+    max-width: 760px;
+  }
+
+  p {
+    color: #c7c7cc;
+    margin-bottom: 14px;
+    font-size: 15px;
+  }
+
+  /* Frequency spectrum visualization */
+  .spectrum-chart {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  .spectrum-bands {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .band {
+    padding: 16px 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .band-name {
+    font-weight: 600;
+    color: #f5f5f7;
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
+
+  .band-range {
+    color: #86868b;
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .band-desc {
+    color: #c7c7cc;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .b-subbass { background: linear-gradient(180deg, rgba(175,82,222,0.25), rgba(175,82,222,0.05)); }
+  .b-bass { background: linear-gradient(180deg, rgba(0,122,255,0.25), rgba(0,122,255,0.05)); }
+  .b-lowermid { background: linear-gradient(180deg, rgba(90,200,250,0.25), rgba(90,200,250,0.05)); }
+  .b-mid { background: linear-gradient(180deg, rgba(52,199,89,0.25), rgba(52,199,89,0.05)); }
+  .b-uppermid { background: linear-gradient(180deg, rgba(255,204,0,0.25), rgba(255,204,0,0.05)); }
+  .b-treble { background: linear-gradient(180deg, rgba(255,149,0,0.25), rgba(255,149,0,0.05)); }
+  .b-air { background: linear-gradient(180deg, rgba(255,59,48,0.25), rgba(255,59,48,0.05)); }
+
+  /* Signature cards with FR graphs */
+  .signature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .signature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.2s;
+  }
+
+  .signature-card:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(218, 119, 86, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .signature-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f5f5f7;
+    margin-bottom: 4px;
+  }
+
+  .signature-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .tag-warm { background: rgba(255,149,0,0.15); color: #ff9500; border: 1px solid rgba(255,149,0,0.3); }
+  .tag-bright { background: rgba(90,200,250,0.15); color: #5ac8fa; border: 1px solid rgba(90,200,250,0.3); }
+  .tag-neutral { background: rgba(134,134,139,0.15); color: #c7c7cc; border: 1px solid rgba(134,134,139,0.3); }
+  .tag-vshape { background: rgba(175,82,222,0.15); color: #af52de; border: 1px solid rgba(175,82,222,0.3); }
+  .tag-thin { background: rgba(255,59,48,0.15); color: #ff3b30; border: 1px solid rgba(255,59,48,0.3); }
+  .tag-dark { background: rgba(0,122,255,0.15); color: #007aff; border: 1px solid rgba(0,122,255,0.3); }
+
+  .fr-chart {
+    background: rgba(0,0,0,0.4);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+
+  .signature-desc {
+    color: #c7c7cc;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .signature-feel {
+    font-size: 13px;
+    color: #86868b;
+    font-style: italic;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Term cards */
+  .term-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .term-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .term-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent, #DA7756);
+  }
+
+  .term-card.bass::before { background: #007aff; }
+  .term-card.treble::before { background: #ff9500; }
+  .term-card.mid::before { background: #34c759; }
+  .term-card.spatial::before { background: #af52de; }
+  .term-card.other::before { background: #DA7756; }
+
+  .term-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #f5f5f7;
+    margin-bottom: 8px;
+  }
+
+  .term-def {
+    font-size: 14px;
+    color: #c7c7cc;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .term-listen {
+    font-size: 12px;
+    color: #86868b;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    line-height: 1.5;
+  }
+
+  .term-listen strong {
+    color: #DA7756;
+    font-weight: 600;
+  }
+
+  /* Callout */
+  .callout {
+    background: rgba(218, 119, 86, 0.06);
+    border-left: 3px solid #DA7756;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: #c7c7cc;
+  }
+
+  .callout strong {
+    color: #DA7756;
+  }
+
+  /* Shopping guide */
+  .shopping-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .shopping-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 22px;
+  }
+
+  .shopping-want {
+    font-size: 13px;
+    color: #86868b;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .shopping-keywords {
+    font-size: 16px;
+    color: #f5f5f7;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .shopping-also {
+    font-size: 13px;
+    color: #c7c7cc;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: #86868b;
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    h1 { font-size: 32px; }
+    h2 { font-size: 26px; }
+    .spectrum-bands { grid-template-columns: repeat(3, 1fr); }
+    .signature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>The Audiophile's Vocabulary</h1>
+      <p class="subtitle">A reference for what reviewers actually mean when they describe how a headphone or IEM sounds.</p>
+      <p class="source-note">Built on Mark Ryan's SuperReview framework with additional terms and frequency context.</p>
+    </header>
+
+    <!-- WHY THIS MATTERS -->
+    <section>
+      <div class="section-label">Why This Exists</div>
+      <h2>The language of sound</h2>
+      <p>Audiophiles use words like warm, bright, thin, and incisive to describe how gear sounds. These words can feel made-up, but they map to specific, measurable behaviors of how a headphone reproduces frequencies. Once the vocabulary clicks, reading reviews stops feeling like decoding poetry and starts feeling like reading specs.</p>
+      <p>This reference covers the most common terms, what they actually describe, and what to listen for when you encounter them.</p>
+    </section>
+
+    <!-- FOUNDATION: THE FREQUENCY SPECTRUM -->
+    <section>
+      <div class="section-label">Foundation</div>
+      <h2>The frequency spectrum</h2>
+      <p class="section-intro">Every audio term ties back to where on the frequency spectrum something is happening. Human hearing covers roughly 20 Hz to 20,000 Hz. Reviewers slice that range into bands, and most descriptions refer to one or more of them.</p>
+
+      <div class="spectrum-chart">
+        <div class="spectrum-bands">
+          <div class="band b-subbass">
+            <div class="band-name">Sub-bass</div>
+            <div class="band-range">20–60 Hz</div>
+            <div class="band-desc">Felt more than heard. Rumble, weight.</div>
+          </div>
+          <div class="band b-bass">
+            <div class="band-name">Bass</div>
+            <div class="band-range">60–250 Hz</div>
+            <div class="band-desc">Kick drums, bass guitar punch.</div>
+          </div>
+          <div class="band b-lowermid">
+            <div class="band-name">Lower Mids</div>
+            <div class="band-range">250–500 Hz</div>
+            <div class="band-desc">Body, warmth of male vocals.</div>
+          </div>
+          <div class="band b-mid">
+            <div class="band-name">Mids</div>
+            <div class="band-range">500 Hz–2 kHz</div>
+            <div class="band-desc">Most vocals, guitar, piano.</div>
+          </div>
+          <div class="band b-uppermid">
+            <div class="band-name">Upper Mids</div>
+            <div class="band-range">2–5 kHz</div>
+            <div class="band-desc">Vocal presence, snare crack.</div>
+          </div>
+          <div class="band b-treble">
+            <div class="band-name">Treble</div>
+            <div class="band-range">5–10 kHz</div>
+            <div class="band-desc">Cymbals, hi-hats, S sounds.</div>
+          </div>
+          <div class="band b-air">
+            <div class="band-name">Air</div>
+            <div class="band-range">10–20 kHz</div>
+            <div class="band-desc">Shimmer, sparkle, openness.</div>
+          </div>
+        </div>
+      </div>
+
+      <p>A headphone's <strong style="color:#f5f5f7">frequency response</strong> is a graph showing how loudly it reproduces each frequency. A perfectly flat response (every frequency at the same volume) is technically neutral but usually sounds dull. Most headphones intentionally emphasize or de-emphasize certain bands. That emphasis pattern is what creates a "sound signature."</p>
+    </section>
+
+    <!-- THE CORE SIGNATURES -->
+    <section>
+      <div class="section-label">Sound Signatures</div>
+      <h2>The five shapes you'll encounter</h2>
+      <p class="section-intro">Most headphones fall into one of these signature families. The frequency response curves below show what each one looks like compared to a flat reference (dashed line).</p>
+
+      <div class="signature-grid">
+
+        <!-- NEUTRAL -->
+        <div class="signature-card">
+          <div class="signature-name">Neutral / Reference</div>
+          <span class="signature-tag tag-neutral">Balanced</span>
+          <div class="fr-chart">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <line x1="0" y1="70" x2="320" y2="70" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="0" y1="35" x2="320" y2="35" stroke="#222" stroke-width="0.5"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="#222" stroke-width="0.5"/>
+              <!-- Labels -->
+              <text x="5" y="135" fill="#666" font-size="9">20Hz</text>
+              <text x="155" y="135" fill="#666" font-size="9">1kHz</text>
+              <text x="285" y="135" fill="#666" font-size="9">20kHz</text>
+              <!-- Curve: relatively flat with slight bass bump -->
+              <path d="M 0,72 Q 40,68 80,70 Q 130,72 160,70 Q 210,68 250,72 Q 290,78 320,82"
+                    stroke="#c7c7cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="signature-desc">A roughly flat response with small, controlled deviations. Aims to reproduce music as the engineers heard it during mastering.</div>
+          <div class="signature-feel">Examples: Sennheiser HD 600, Etymotic ER series. Honest. Not flashy.</div>
+        </div>
+
+        <!-- WARM -->
+        <div class="signature-card">
+          <div class="signature-name">Warm</div>
+          <span class="signature-tag tag-warm">Bass-tilted</span>
+          <div class="fr-chart">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="70" x2="320" y2="70" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="0" y1="35" x2="320" y2="35" stroke="#222" stroke-width="0.5"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="#222" stroke-width="0.5"/>
+              <text x="5" y="135" fill="#666" font-size="9">20Hz</text>
+              <text x="155" y="135" fill="#666" font-size="9">1kHz</text>
+              <text x="285" y="135" fill="#666" font-size="9">20kHz</text>
+              <!-- Warm: elevated bass, declining toward treble -->
+              <path d="M 0,50 Q 50,52 100,60 Q 160,70 220,82 Q 280,92 320,100"
+                    stroke="#ff9500" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="signature-desc">Elevated bass, slightly rolled-off treble. Fuller, richer, more "body" in the lower frequencies. Less contrast between instruments.</div>
+          <div class="signature-feel">Examples: Sennheiser IE 600, ZMF Aeolus. Inviting. Forgiving of bad recordings.</div>
+        </div>
+
+        <!-- BRIGHT -->
+        <div class="signature-card">
+          <div class="signature-name">Bright</div>
+          <span class="signature-tag tag-bright">Treble-tilted</span>
+          <div class="fr-chart">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="70" x2="320" y2="70" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="0" y1="35" x2="320" y2="35" stroke="#222" stroke-width="0.5"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="#222" stroke-width="0.5"/>
+              <text x="5" y="135" fill="#666" font-size="9">20Hz</text>
+              <text x="155" y="135" fill="#666" font-size="9">1kHz</text>
+              <text x="285" y="135" fill="#666" font-size="9">20kHz</text>
+              <!-- Bright: declining bass, rising treble -->
+              <path d="M 0,90 Q 60,85 120,78 Q 180,68 240,55 Q 280,48 320,42"
+                    stroke="#5ac8fa" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="signature-desc">Recessed bass, elevated treble. Vocals and high-frequency detail get pushed forward. More clarity, more space, more contrast.</div>
+          <div class="signature-feel">Examples: Beyerdynamic DT 1990 Pro, Sennheiser HD 800 S. Analytical. Can be fatiguing.</div>
+        </div>
+
+        <!-- V-SHAPE -->
+        <div class="signature-card">
+          <div class="signature-name">V-Shape</div>
+          <span class="signature-tag tag-vshape">Smile curve</span>
+          <div class="fr-chart">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="70" x2="320" y2="70" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="0" y1="35" x2="320" y2="35" stroke="#222" stroke-width="0.5"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="#222" stroke-width="0.5"/>
+              <text x="5" y="135" fill="#666" font-size="9">20Hz</text>
+              <text x="155" y="135" fill="#666" font-size="9">1kHz</text>
+              <text x="285" y="135" fill="#666" font-size="9">20kHz</text>
+              <!-- V-shape: both ends boosted, mids dipped -->
+              <path d="M 0,45 Q 60,55 110,80 Q 160,90 210,75 Q 270,55 320,45"
+                    stroke="#af52de" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="signature-desc">Bass boosted, treble boosted, mids scooped out. Exciting at first listen. Loses vocal body and midrange detail.</div>
+          <div class="signature-feel">Examples: Beats, many consumer headphones. Fun for parties. Fatiguing for long sessions.</div>
+        </div>
+
+        <!-- DARK -->
+        <div class="signature-card">
+          <div class="signature-name">Dark</div>
+          <span class="signature-tag tag-dark">Heavily warm</span>
+          <div class="fr-chart">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="70" x2="320" y2="70" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="0" y1="35" x2="320" y2="35" stroke="#222" stroke-width="0.5"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="#222" stroke-width="0.5"/>
+              <text x="5" y="135" fill="#666" font-size="9">20Hz</text>
+              <text x="155" y="135" fill="#666" font-size="9">1kHz</text>
+              <text x="285" y="135" fill="#666" font-size="9">20kHz</text>
+              <!-- Dark: heavily warm with rolled-off treble -->
+              <path d="M 0,48 Q 50,55 100,65 Q 160,78 220,95 Q 270,108 320,118"
+                    stroke="#007aff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="signature-desc">An exaggerated warm signature with substantially rolled-off treble. Bass-heavy, smooth, can feel "veiled" or congested.</div>
+          <div class="signature-feel">Examples: Audeze LCD-2, some vintage tunings. Relaxing. Not for detail work.</div>
+        </div>
+
+        <!-- THIN -->
+        <div class="signature-card">
+          <div class="signature-name">Thin</div>
+          <span class="signature-tag tag-thin">Hollow mids</span>
+          <div class="fr-chart">
+            <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="70" x2="320" y2="70" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="0" y1="35" x2="320" y2="35" stroke="#222" stroke-width="0.5"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="#222" stroke-width="0.5"/>
+              <text x="5" y="135" fill="#666" font-size="9">20Hz</text>
+              <text x="155" y="135" fill="#666" font-size="9">1kHz</text>
+              <text x="285" y="135" fill="#666" font-size="9">20kHz</text>
+              <!-- Thin: hollowed lower mids/upper bass -->
+              <path d="M 0,65 Q 30,75 80,95 Q 140,100 180,85 Q 230,72 270,62 Q 295,58 320,55"
+                    stroke="#ff3b30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="signature-desc">A scoop in the lower mids and upper bass leaves vocals and instruments feeling "hollow" or weightless. Different from bright — sub-bass can still be present.</div>
+          <div class="signature-feel">Examples: Many cheap earbuds, some studio monitors. Lacking body. Vocals lose weight.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BASS VOCABULARY -->
+    <section>
+      <div class="section-label">Bass Vocabulary</div>
+      <h2>How reviewers describe low frequencies</h2>
+      <p class="section-intro">Bass is the easiest range to describe because we feel it physically. But the words people use carry specific meanings.</p>
+
+      <div class="term-grid">
+        <div class="term-card bass">
+          <div class="term-name">Sub-bass</div>
+          <div class="term-def">The deepest range, roughly 20-60 Hz. Felt more than heard. Provides rumble, weight, the physical thump of a kick drum or synth bass.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Movie explosions, electronic bass drops, 808s. If you feel pressure in your chest, that's sub-bass.</div>
+        </div>
+
+        <div class="term-card bass">
+          <div class="term-name">Mid-bass</div>
+          <div class="term-def">Roughly 60-250 Hz. Where most bass guitar notes and kick drum body live. Affects the warmth and fullness of male vocals too.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Bass guitar lines, kick drum punch. This is the range that gives music its sense of body.</div>
+        </div>
+
+        <div class="term-card bass">
+          <div class="term-name">Bass Bloat</div>
+          <div class="term-def">Too much mid-bass. Crowds out vocals, reduces separation between instruments, makes everything feel "smeared" together. Not the same as sub-bass emphasis, which is cleaner.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Bass that drowns out other elements. Following the bass line becomes hard because there's no definition.</div>
+        </div>
+
+        <div class="term-card bass">
+          <div class="term-name">Slam</div>
+          <div class="term-def">The physical impact of bass hits. A headphone with good slam delivers kick drums and bass drops with visceral force. Closely related to "punch."</div>
+          <div class="term-listen"><strong>Listen for:</strong> Kick drum hits. Does it feel like a solid thump or a soft pat?</div>
+        </div>
+
+        <div class="term-card bass">
+          <div class="term-name">Tight / Loose</div>
+          <div class="term-def">How quickly bass starts and stops. Tight bass has clear leading and trailing edges. Loose bass smears together and feels sloppy or "boomy."</div>
+          <div class="term-listen"><strong>Listen for:</strong> Fast bass guitar runs. Can you hear each note distinctly or do they blur together?</div>
+        </div>
+
+        <div class="term-card bass">
+          <div class="term-name">Texture</div>
+          <div class="term-def">The detail and complexity within bass notes. Good bass texture reveals fingerwork on bass strings, the resonance of the instrument body, the room the recording happened in.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Acoustic bass on jazz recordings. You should hear the wood, the string, the breath of the instrument.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MIDRANGE VOCABULARY -->
+    <section>
+      <div class="section-label">Midrange Vocabulary</div>
+      <h2>The most important range</h2>
+      <p class="section-intro">Most of the music you care about lives in the midrange. Vocals, guitar, piano, the body of nearly every instrument. Reviewers tend to be particularly precise about midrange descriptions because this is where headphones are easiest to get wrong.</p>
+
+      <div class="term-grid">
+        <div class="term-card mid">
+          <div class="term-name">Forward Vocals</div>
+          <div class="term-def">The singer feels close, present, "in front of" the rest of the band. Created by emphasis in the upper mids around 2-4 kHz. Good for vocal-centric music.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Does the vocalist feel like they're singing to you or behind a curtain of instruments?</div>
+        </div>
+
+        <div class="term-card mid">
+          <div class="term-name">Recessed Vocals</div>
+          <div class="term-def">The singer sits back in the mix, behind the instruments. Created by a dip in the upper mids. Some people prefer this for orchestral or instrumental music where the voice shouldn't dominate.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Vocals that feel further away than the guitar or drums.</div>
+        </div>
+
+        <div class="term-card mid">
+          <div class="term-name">Lush</div>
+          <div class="term-def">Rich, full, slightly thick midrange. Notes feel substantial. Often paired with a slight warm tilt. Associated with tube amps and certain dynamic driver headphones.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Vocals and acoustic guitars that feel "fed" and complete rather than wispy.</div>
+        </div>
+
+        <div class="term-card mid">
+          <div class="term-name">Smooth</div>
+          <div class="term-def">No harsh peaks in the midrange. Vocals slide easily without any frequencies jumping out unpleasantly. Different from "rolled off" — detail can still be there, just not aggressive.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Female vocals on emotional ballads. Do any notes make you flinch?</div>
+        </div>
+
+        <div class="term-card mid">
+          <div class="term-name">Honky / Nasal</div>
+          <div class="term-def">A peak around 1-2 kHz that makes vocals sound like the singer is plugging their nose. Unpleasant coloration that affects most vocal music.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Does the vocalist sound congested even though you know they're not?</div>
+        </div>
+
+        <div class="term-card mid">
+          <div class="term-name">Body / Weight</div>
+          <div class="term-def">The sense of substance behind notes. A headphone with good body makes a cello sound like a cello — heavy, resonant. Without body, instruments feel hollow.</div>
+          <div class="term-listen"><strong>Listen for:</strong> String instruments. Does the cello feel like a piece of furniture or a violin pretending?</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TREBLE VOCABULARY -->
+    <section>
+      <div class="section-label">Treble Vocabulary</div>
+      <h2>The detail and air range</h2>
+      <p class="section-intro">Treble is where headphones differentiate themselves on perceived "detail." It's also where they cause the most listening fatigue when done wrong. The line between exciting and tiring is thin.</p>
+
+      <div class="term-grid">
+        <div class="term-card treble">
+          <div class="term-name">Detail / Resolution</div>
+          <div class="term-def">The ability to hear small elements in a recording — reverb tails, breath sounds, finger noise on guitar strings. Often comes from treble emphasis, but real resolution is about driver speed and clarity throughout the range.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Things you've never noticed in songs you know well. Background instruments, room ambiance.</div>
+        </div>
+
+        <div class="term-card treble">
+          <div class="term-name">Incisive</div>
+          <div class="term-def">Sharp, defined leading edges on percussive sounds. A kick drum isn't just a low frequency — it's the thwack of the beater hitting the head. Incisiveness is how clearly you hear that attack.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Snare drum cracks, hi-hat hits. Do they have a defined edge or sound smeared?</div>
+        </div>
+
+        <div class="term-card treble">
+          <div class="term-name">Sparkle</div>
+          <div class="term-def">A pleasant emphasis in the upper treble (8-12 kHz) that adds shimmer to cymbals and air to vocals. The opposite of dark or rolled-off.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Cymbal decay. Does it shimmer and float or just stop dead?</div>
+        </div>
+
+        <div class="term-card treble">
+          <div class="term-name">Air</div>
+          <div class="term-def">Energy in the highest treble (10-20 kHz). Creates a sense of openness and space. Hard to hear directly but you notice when it's missing — music feels closed-in.</div>
+          <div class="term-listen"><strong>Listen for:</strong> The space around instruments, the sense of a recording venue's atmosphere.</div>
+        </div>
+
+        <div class="term-card treble">
+          <div class="term-name">Sibilance</div>
+          <div class="term-def">Harsh, exaggerated emphasis on S and T sounds in vocals. Created by peaks around 5-8 kHz. Makes singers sound like they're hissing at you. Common pitfall in bright headphones.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Words with multiple S sounds. "She sells seashells" should not hurt.</div>
+        </div>
+
+        <div class="term-card treble">
+          <div class="term-name">Harsh / Piercing</div>
+          <div class="term-def">Treble that crosses from exciting into painful. Often caused by narrow, aggressive peaks in the 4-8 kHz range. Causes listener fatigue within minutes.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Cymbal crashes that make you want to turn down the volume.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPATIAL VOCABULARY -->
+    <section>
+      <div class="section-label">Spatial Vocabulary</div>
+      <h2>Soundstage, imaging, and the illusion of space</h2>
+      <p class="section-intro">Headphones can't actually create a soundstage the way speakers can. What they do is simulate spatial cues through careful timing, frequency response, and driver design. These terms describe that simulation.</p>
+
+      <div class="term-grid">
+        <div class="term-card spatial">
+          <div class="term-name">Soundstage</div>
+          <div class="term-def">The overall sense of space the music occupies. A wide soundstage feels like a large room or concert hall. A narrow soundstage feels like the music is between your ears. Open-back headphones generally have larger soundstages than closed-backs.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Live recordings. Do you feel like you're in the venue or staring at the speakers?</div>
+        </div>
+
+        <div class="term-card spatial">
+          <div class="term-name">Imaging</div>
+          <div class="term-def">The ability to pinpoint exactly where each instrument is positioned in the stage. Sharp imaging means you can close your eyes and point to where the snare drum is in 3D space.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Hard-panned instruments. Can you place them precisely or is the position fuzzy?</div>
+        </div>
+
+        <div class="term-card spatial">
+          <div class="term-name">Separation</div>
+          <div class="term-def">How distinct individual instruments and elements feel from each other. Good separation lets you focus on one element at a time. Poor separation smears everything together.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Dense mixes. Can you follow the bass line while the guitar solos, or does it blur?</div>
+        </div>
+
+        <div class="term-card spatial">
+          <div class="term-name">Depth</div>
+          <div class="term-def">The front-to-back dimension of the soundstage. Some instruments feel closer, others further away. A headphone with good depth creates layers, not just left-right placement.</div>
+          <div class="term-listen"><strong>Listen for:</strong> Vocal vs. background harmonies. Do the backups feel set back behind the lead?</div>
+        </div>
+
+        <div class="term-card spatial">
+          <div class="term-name">Holography</div>
+          <div class="term-def">When imaging is so precise that instruments feel like they have physical, three-dimensional presence in space. Rare term, usually reserved for high-end gear.</div>
+          <div class="term-listen"><strong>Listen for:</strong> The sense that you could walk around an instrument and see its other side.</div>
+        </div>
+
+        <div class="term-card spatial">
+          <div class="term-name">Intimate</div>
+          <div class="term-def">A small, close soundstage where everything feels nearby. Not necessarily bad — works well for vocal-focused recordings, jazz trios, anything where you want to feel "in the room" rather than "in the hall."</div>
+          <div class="term-listen"><strong>Listen for:</strong> Studio vocal recordings. Does it feel like the singer is two feet away?</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OTHER USEFUL TERMS -->
+    <section>
+      <div class="section-label">Other Useful Terms</div>
+      <h2>The rest of the vocabulary</h2>
+      <p class="section-intro">Terms that don't fit neatly into a frequency band but come up constantly in reviews.</p>
+
+      <div class="term-grid">
+        <div class="term-card other">
+          <div class="term-name">Timbre</div>
+          <div class="term-def">How accurately a headphone reproduces the natural tonal character of an instrument. Good timbre means a violin sounds like a violin, not a synthesized approximation of one. Bad timbre is the audiophile equivalent of uncanny valley.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Coloration</div>
+          <div class="term-def">Any deviation from neutral. All headphones color the sound — the question is whether the coloration is pleasant or distracting. A "highly colored" headphone is far from neutral; an "uncolored" headphone is close to flat.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Speed</div>
+          <div class="term-def">How quickly the driver responds to signal changes. Fast drivers (often planar or electrostatic) handle complex passages cleanly. Slow drivers can sound congested on busy music.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Decay</div>
+          <div class="term-def">How a note fades out after it's played. Natural decay sounds like the instrument in real life — a cymbal ringing out, a piano string still vibrating. Artificial or truncated decay sounds clipped.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Musical vs. Analytical</div>
+          <div class="term-def">A loose dichotomy. "Musical" gear prioritizes enjoyment and emotional engagement over strict accuracy. "Analytical" gear prioritizes detail and accuracy, sometimes at the cost of musical flow. Most listeners want something in between.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Coherent</div>
+          <div class="term-def">A sense that all frequencies are arriving together as a unified whole, rather than feeling like separate drivers handling different ranges. Single-dynamic-driver IEMs often score high on coherence; some multi-driver hybrids can feel "disjointed."</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Engaging</div>
+          <div class="term-def">A vague but real quality. An engaging headphone makes you want to keep listening. Often comes from good dynamics, rhythmic drive, and emotional honesty rather than measurable specifications.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Veiled</div>
+          <div class="term-def">As if a cloth is draped over the music. Reduced clarity in the upper mids and treble. Often paired with criticism of dark or warm headphones taken too far.</div>
+        </div>
+
+        <div class="term-card other">
+          <div class="term-name">Congested</div>
+          <div class="term-def">Music feels crowded, with poor separation between elements. Often caused by bass bloat encroaching on the mids, or by drivers that can't handle complex passages.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW TO USE THIS -->
+    <section>
+      <div class="section-label">Applied Knowledge</div>
+      <h2>Translating preferences into purchases</h2>
+      <p class="section-intro">Once you know what you actually want, the right keywords help you filter reviews and find gear that matches.</p>
+
+      <div class="shopping-grid">
+        <div class="shopping-card">
+          <div class="shopping-want">If you want</div>
+          <div class="shopping-keywords">Pleasant, long-session, forgiving</div>
+          <div class="shopping-also">Search for: warm, smooth, musical, lush, intimate, slightly elevated bass, rolled-off treble</div>
+        </div>
+
+        <div class="shopping-card">
+          <div class="shopping-want">If you want</div>
+          <div class="shopping-keywords">Accurate, reference, mixing-grade</div>
+          <div class="shopping-also">Search for: neutral, balanced, reference, uncolored, transparent, flat response</div>
+        </div>
+
+        <div class="shopping-card">
+          <div class="shopping-want">If you want</div>
+          <div class="shopping-keywords">Detailed, revealing, analytical</div>
+          <div class="shopping-also">Search for: bright, incisive, resolving, fast, technical, extended treble, wide soundstage</div>
+        </div>
+
+        <div class="shopping-card">
+          <div class="shopping-want">If you want</div>
+          <div class="shopping-keywords">Fun, exciting, bass-forward</div>
+          <div class="shopping-also">Search for: V-shape, slam, sub-bass emphasis, energetic, engaging</div>
+        </div>
+
+        <div class="shopping-card">
+          <div class="shopping-want">If you want</div>
+          <div class="shopping-keywords">Spacious, immersive, room-like</div>
+          <div class="shopping-also">Search for: wide soundstage, holographic, open-back, airy, three-dimensional imaging</div>
+        </div>
+
+        <div class="shopping-card">
+          <div class="shopping-want">If you want to avoid</div>
+          <div class="shopping-keywords">Fatigue, harshness, listening pain</div>
+          <div class="shopping-also">Avoid: sibilant, peaky, harsh treble, hot upper mids, narrow peaks, V-shape (for long sessions)</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>One last thing.</strong> Reviewers are subjective. Two people listening to the same headphone with the same music can come to different conclusions about whether it's "warm" or "neutral." The vocabulary is a tool for communication, not an exact science. The best use of these terms is to read multiple reviews from people whose taste you've come to understand, and triangulate from there.
+      </div>
+    </section>
+
+    <footer>
+      <p>Built on Mark Ryan's SuperReview framework, expanded with frequency context and additional terminology.</p>
+      <p style="margin-top: 8px;">Reference, not religion. Trust your ears.</p>
+    </footer>
+
+  </div>
+</body>
+</html>
