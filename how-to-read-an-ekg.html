@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Read an EKG</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: #0a0a0a;
+    color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 64px 32px 96px; }
+
+  .label {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #DA7756; margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(36px, 5vw, 56px); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 16px;
+  }
+  .subtitle { font-size: 20px; color: #c7c7cc; max-width: 680px; }
+
+  section { margin-top: 72px; }
+  h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 24px; }
+  h2 .num {
+    display: inline-block; color: #DA7756; font-variant-numeric: tabular-nums;
+    margin-right: 12px; font-weight: 600;
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    margin-top: 32px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-left: 3px solid #DA7756;
+    border-radius: 10px; padding: 16px 22px;
+    font-size: 14.5px; color: #c7c7cc;
+  }
+
+  /* Insight callout */
+  .insight {
+    background: linear-gradient(135deg, rgba(218,119,86,0.10), rgba(218,119,86,0.02));
+    border: 1px solid rgba(218,119,86,0.25);
+    border-radius: 16px; padding: 32px 36px; margin-top: 32px;
+  }
+  .insight .label { color: #DA7756; }
+  .insight p { font-size: 22px; line-height: 1.45; font-weight: 500; color: #f5f5f7; }
+  .insight strong { color: #DA7756; font-weight: 700; }
+
+  /* Trace card */
+  .trace-card {
+    background: #0d0d0f;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 20px; padding: 28px;
+  }
+  svg { width: 100%; height: auto; display: block; }
+  .trace-caption {
+    margin-top: 18px; font-size: 14.5px; color: #b0b0b5; text-align: center;
+  }
+
+  /* Component grid for waveform parts */
+  .parts {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px; margin-top: 24px;
+  }
+  .part {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 20px 22px;
+  }
+  .part .pin {
+    font-size: 13px; font-weight: 700; color: #4ade80;
+    letter-spacing: 0.05em; margin-bottom: 8px;
+  }
+  .part h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .part p { color: #c7c7cc; font-size: 14.5px; line-height: 1.55; }
+  .part .val {
+    display: inline-block; margin-top: 10px; font-size: 12.5px; font-weight: 600;
+    color: #b0b0b5; background: rgba(255,255,255,0.07);
+    padding: 3px 9px; border-radius: 6px; letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Steps */
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px; margin-top: 24px;
+  }
+  .step {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 22px 24px;
+  }
+  .step .step-num {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.16em;
+    color: #E89B7D; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .step h4 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .step p { color: #c7c7cc; font-size: 15.5px; line-height: 1.6; }
+  .step .val {
+    display: inline-block; margin-top: 12px; font-size: 12.5px; font-weight: 600;
+    color: #b0b0b5; background: rgba(255,255,255,0.07);
+    padding: 3px 9px; border-radius: 6px; letter-spacing: 0.03em;
+  }
+
+  /* Grid reference (two cards) */
+  .gridref { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  @media (max-width: 700px) { .gridref { grid-template-columns: 1fr; } }
+  .gridcard {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 24px 26px;
+  }
+  .gridcard h4 { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+  .gridcard .row {
+    display: flex; justify-content: space-between; padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 15px;
+  }
+  .gridcard .row:last-child { border-bottom: 0; }
+  .gridcard .row span:first-child { color: #c7c7cc; }
+  .gridcard .row span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* Lead territory grid */
+  .leads {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px; margin-top: 24px;
+  }
+  .lead {
+    border-radius: 14px; padding: 22px 24px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+  }
+  .lead .terr {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .lead .ld {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 18px; font-weight: 700; color: #f5f5f7; margin-bottom: 8px;
+  }
+  .lead p { color: #c7c7cc; font-size: 14px; }
+  .lead.inf { border-left: 4px solid #f59e0b; }
+  .lead.inf .terr { color: #f59e0b; }
+  .lead.sep { border-left: 4px solid #60a5fa; }
+  .lead.sep .terr { color: #60a5fa; }
+  .lead.ant { border-left: 4px solid #f87171; }
+  .lead.ant .terr { color: #f87171; }
+  .lead.lat { border-left: 4px solid #4ade80; }
+  .lead.lat .terr { color: #4ade80; }
+
+  /* Takeaway */
+  .takeaway {
+    margin-top: 80px; padding: 40px;
+    background: #DA7756; color: #1a1208;
+    border-radius: 20px; text-align: center;
+  }
+  .takeaway .label { color: #1a1208; opacity: 0.6; }
+  .takeaway p { font-size: 22px; font-weight: 600; line-height: 1.4; letter-spacing: -0.01em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="label">Clinical Skills · Educational</div>
+  <h1>How to read an EKG</h1>
+  <p class="subtitle">An EKG is a graph of the heart's electrical activity over time. The trick to reading one is to never look at the whole thing at once. You walk through it in the same order, every time.</p>
+
+  <div class="disclaimer">
+    This is an educational overview of how EKGs are structured and interpreted. It is not medical advice and is not a substitute for formal clinical training. Real EKG interpretation belongs with a qualified clinician.
+  </div>
+
+  <div class="insight">
+    <div class="label">The Core Idea</div>
+    <p>Every heartbeat fires the same sequence: <strong>P wave</strong> (atria fire), <strong>QRS</strong> (ventricles fire), <strong>T wave</strong> (ventricles reset). Reading an EKG is checking whether that sequence is timed and shaped correctly.</p>
+  </div>
+
+  <!-- WAVEFORM -->
+  <section>
+    <h2><span class="num">01</span>The waveform of one beat</h2>
+    <div class="trace-card">
+      <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="smallgrid" width="16" height="16" patternUnits="userSpaceOnUse">
+            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(218,119,86,0.10)" stroke-width="1"/>
+          </pattern>
+          <pattern id="biggrid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <rect width="80" height="80" fill="url(#smallgrid)"/>
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(218,119,86,0.28)" stroke-width="1.2"/>
+          </pattern>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.2" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <rect x="0" y="0" width="800" height="360" fill="url(#biggrid)"/>
+
+        <!-- ECG trace: one clean beat -->
+        <path d="M 30 230
+                 L 110 230
+                 Q 150 192 195 230
+                 L 235 230
+                 L 250 248
+                 L 272 95
+                 L 292 268
+                 L 312 230
+                 L 380 230
+                 Q 430 178 495 230
+                 L 600 230
+                 Q 640 192 685 230
+                 L 770 230"
+              fill="none" stroke="#4ade80" stroke-width="3" stroke-linejoin="round"
+              stroke-linecap="round" filter="url(#glow)"/>
+
+        <!-- Annotations -->
+        <g font-family="-apple-system, sans-serif" font-weight="700">
+          <!-- P -->
+          <text x="150" y="178" text-anchor="middle" font-size="18" fill="#DA7756">P</text>
+          <!-- QRS bracket -->
+          <text x="272" y="78" text-anchor="middle" font-size="18" fill="#DA7756">R</text>
+          <text x="246" y="262" text-anchor="end" font-size="14" fill="#E89B7D">Q</text>
+          <text x="298" y="285" text-anchor="start" font-size="14" fill="#E89B7D">S</text>
+          <!-- T -->
+          <text x="430" y="164" text-anchor="middle" font-size="18" fill="#DA7756">T</text>
+        </g>
+
+        <!-- Interval markers -->
+        <g font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#b0b0b5">
+          <!-- PR interval -->
+          <line x1="110" y1="320" x2="250" y2="320" stroke="#86868b" stroke-width="1"/>
+          <line x1="110" y1="314" x2="110" y2="326" stroke="#86868b" stroke-width="1"/>
+          <line x1="250" y1="314" x2="250" y2="326" stroke="#86868b" stroke-width="1"/>
+          <text x="180" y="340" text-anchor="middle">PR interval</text>
+
+          <!-- QRS duration -->
+          <line x1="250" y1="300" x2="312" y2="300" stroke="#86868b" stroke-width="1"/>
+          <line x1="250" y1="294" x2="250" y2="306" stroke="#86868b" stroke-width="1"/>
+          <line x1="312" y1="294" x2="312" y2="306" stroke="#86868b" stroke-width="1"/>
+          <text x="281" y="295" text-anchor="middle" font-size="11">QRS</text>
+        </g>
+      </svg>
+      <p class="trace-caption">One cardiac cycle. The green trace is what a monitor draws; the pink grid is standard EKG paper.</p>
+    </div>
+
+    <div class="parts">
+      <div class="part">
+        <div class="pin">P WAVE</div>
+        <h4>Atria depolarize</h4>
+        <p>The atria contract and push blood into the ventricles. Should be small, smooth, and upright in lead II.</p>
+      </div>
+      <div class="part">
+        <div class="pin">PR INTERVAL</div>
+        <h4>The AV node pause</h4>
+        <p>Time from atrial firing to ventricular firing. A deliberate delay that lets the ventricles fill before they squeeze.</p>
+        <span class="val">Normal 120–200 ms</span>
+      </div>
+      <div class="part">
+        <div class="pin">QRS COMPLEX</div>
+        <h4>Ventricles depolarize</h4>
+        <p>The big spike. The ventricles contract and eject blood. Narrow means the signal traveled the normal fast pathway.</p>
+        <span class="val">Normal &lt; 120 ms</span>
+      </div>
+      <div class="part">
+        <div class="pin">ST SEGMENT</div>
+        <h4>The flat stretch</h4>
+        <p>Between contraction and reset. Should sit level with the baseline. Elevation or depression here is what flags ischemia.</p>
+      </div>
+      <div class="part">
+        <div class="pin">T WAVE</div>
+        <h4>Ventricles repolarize</h4>
+        <p>The ventricles reset electrically for the next beat. Usually upright and rounded.</p>
+      </div>
+      <div class="part">
+        <div class="pin">QT INTERVAL</div>
+        <h4>Total ventricular time</h4>
+        <p>Start of QRS to end of T. A long QT can predispose to dangerous rhythms, so it's always checked.</p>
+        <span class="val">Corrected for rate (QTc)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE GRID -->
+  <section>
+    <h2><span class="num">02</span>Reading the paper</h2>
+    <p class="subtitle" style="font-size:17px;">Every measurement comes from counting boxes. The grid is the ruler.</p>
+    <div class="gridref">
+      <div class="gridcard">
+        <h4>Small box · 1 mm</h4>
+        <div class="row"><span>Time (across)</span><span>0.04 s · 40 ms</span></div>
+        <div class="row"><span>Voltage (up/down)</span><span>0.1 mV</span></div>
+        <div class="row"><span>Paper speed</span><span>25 mm/s</span></div>
+      </div>
+      <div class="gridcard">
+        <h4>Big box · 5 mm</h4>
+        <div class="row"><span>= 5 small boxes</span><span>0.20 s · 200 ms</span></div>
+        <div class="row"><span>Voltage</span><span>0.5 mV</span></div>
+        <div class="row"><span>5 big boxes</span><span>1 full second</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEMATIC METHOD -->
+  <section>
+    <h2><span class="num">03</span>The systematic walk-through</h2>
+    <p class="subtitle" style="font-size:17px;">Same order every time. This is what stops you from missing things.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Step 01 · Rate</div>
+        <h4>How fast?</h4>
+        <p>Divide 300 by the number of big boxes between two R waves. One box apart = 300 bpm, two = 150, three = 100, four = 75, five = 60, six = 50.</p>
+        <span class="val">Normal 60–100 bpm</span>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02 · Rhythm</div>
+        <h4>Regular or irregular?</h4>
+        <p>Are the R waves evenly spaced? Is there a P wave before every QRS, and a QRS after every P? Even spacing with that pairing is normal sinus rhythm.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03 · Axis</div>
+        <h4>Which way is it pointing?</h4>
+        <p>The net direction of the heart's electrical signal. Check leads I and aVF: both upright means a normal axis.</p>
+        <span class="val">Normal −30° to +90°</span>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 04 · Intervals</div>
+        <h4>Are the timings right?</h4>
+        <p>Measure PR, QRS, and QT by counting boxes. A long PR, a wide QRS, or a long QT each point to specific conduction problems.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 05 · Morphology</div>
+        <h4>Do the waves look right?</h4>
+        <p>Check the shape of P waves, QRS, and T waves. Tall, peaked, inverted, or notched shapes each carry meaning.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 06 · ST &amp; T</div>
+        <h4>Any ischemia?</h4>
+        <p>Look at the ST segment and T waves across all leads. ST elevation or depression, and T inversion, are the classic signs of injury or ischemia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADS -->
+  <section>
+    <h2><span class="num">04</span>The 12 leads see different walls</h2>
+    <p class="subtitle" style="font-size:17px;">Each lead is a camera angle on the heart. Grouping them tells you <em>where</em> a problem is, because changes cluster by region.</p>
+    <div class="leads">
+      <div class="lead inf">
+        <div class="terr">Inferior wall</div>
+        <div class="ld">II · III · aVF</div>
+        <p>Bottom of the heart. Typically supplied by the right coronary artery.</p>
+      </div>
+      <div class="lead sep">
+        <div class="terr">Septal wall</div>
+        <div class="ld">V1 · V2</div>
+        <p>The wall between the ventricles. Supplied by the LAD.</p>
+      </div>
+      <div class="lead ant">
+        <div class="terr">Anterior wall</div>
+        <div class="ld">V3 · V4</div>
+        <p>Front of the heart. Also LAD territory.</p>
+      </div>
+      <div class="lead lat">
+        <div class="terr">Lateral wall</div>
+        <div class="ld">I · aVL · V5 · V6</div>
+        <p>Side wall. Supplied by the circumflex and diagonal branches.</p>
+      </div>
+    </div>
+    <div class="disclaimer" style="border-left-color:#60a5fa;">
+      Lead aVR points away from the heart and is often used as a quality and direction check rather than a regional view.
+    </div>
+  </section>
+
+  <div class="takeaway">
+    <div class="label">Remember</div>
+    <p>Don't read an EKG all at once. Walk it in order — rate, rhythm, axis, intervals, morphology, ST/T — and the pattern reveals itself.</p>
+  </div>
+
+</div>
+</body>
+</html>
